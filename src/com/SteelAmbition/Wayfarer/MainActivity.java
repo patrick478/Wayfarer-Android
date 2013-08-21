@@ -1,13 +1,14 @@
 package com.SteelAmbition.Wayfarer;
 
-import Tasks.TasksFragment;
+
 import android.app.Activity;
 import android.os.Bundle;
+import com.SteelAmbition.Wayfarer.Tasks.TasksFragment;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.crashlytics.android.Crashlytics;
-import com.squareup.picasso.Picasso;
+
 
 public class MainActivity extends SherlockFragmentActivity {
     /**
@@ -16,7 +17,9 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Crashlytics.start(this);
+        Crashlytics.start(this);
+
+        Crashlytics.start(this);
 
         //setContentView(R.layout.main);
         addTabs();
