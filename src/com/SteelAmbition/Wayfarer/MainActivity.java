@@ -1,5 +1,6 @@
 package com.SteelAmbition.Wayfarer;
 
+import Tasks.TasksFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
