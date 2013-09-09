@@ -5,6 +5,8 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.os.Bundle;
 
+
+
 import android.support.v4.app.FragmentActivity;
 
 import com.SteelAmbition.Wayfarer.Tasks.TasksFragment;
@@ -21,8 +23,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
-
         Crashlytics.start(this);
 
         //setContentView(R.layout.main);
