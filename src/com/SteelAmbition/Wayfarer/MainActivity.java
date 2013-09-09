@@ -1,8 +1,10 @@
 package com.SteelAmbition.Wayfarer;
 
 
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.SteelAmbition.Wayfarer.Tasks.TasksFragment;
 import com.actionbarsherlock.app.ActionBar;
@@ -11,7 +13,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.crashlytics.android.Crashlytics;
 
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends FragmentActivity {
     /**
      * Called when the activity is first created.
      */
@@ -26,21 +28,21 @@ public class MainActivity extends SherlockFragmentActivity {
 
 
     private void addTabs() {
-        com.actionbarsherlock.app.ActionBar bar = getSupportActionBar();
+        android.app.ActionBar bar = getActionBar();
         bar.setNavigationMode(com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_TABS);
 
         String dashboardTitle =getResources().getString(R.string.dashboard);
-        com.actionbarsherlock.app.ActionBar.Tab dashboardTab = bar.newTab().setText(dashboardTitle);
+        Tab dashboardTab = bar.newTab().setText(dashboardTitle);
         dashboardTab.setTabListener(new TabListener(this, dashboardTitle, DashboardFragment.class));
         bar.addTab(dashboardTab);
 
         String tasksTitle = getResources().getString(R.string.tasks);
-        com.actionbarsherlock.app.ActionBar.Tab tasksTab = bar.newTab().setText(tasksTitle);
+        Tab tasksTab = bar.newTab().setText(tasksTitle);
         tasksTab.setTabListener(new TabListener(this, tasksTitle, TasksFragment.class));
         bar.addTab(tasksTab);
 
         String socialTitle =getResources().getString(R.string.social);
-        com.actionbarsherlock.app.ActionBar.Tab socialTab = bar.newTab().setText(socialTitle);
+        Tab socialTab = bar.newTab().setText(socialTitle);
         socialTab.setTabListener(new TabListener(this, socialTitle, SocialFragment.class));
         bar.addTab(socialTab);
 
