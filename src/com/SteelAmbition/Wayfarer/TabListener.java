@@ -1,5 +1,6 @@
 package com.SteelAmbition.Wayfarer;
 
+import android.app.ActionBar.Tab;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +14,7 @@ import com.actionbarsherlock.app.SherlockFragment;
  * Time: 1:41 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TabListener implements ActionBar.TabListener {
+public class TabListener implements ActionBar.TabListener, android.app.ActionBar.TabListener {
 
     private final FragmentActivity mActivity;
     private final String mTag;
@@ -51,4 +52,22 @@ public class TabListener implements ActionBar.TabListener {
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
 }
