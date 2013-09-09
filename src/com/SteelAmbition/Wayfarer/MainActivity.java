@@ -3,6 +3,7 @@ package com.SteelAmbition.Wayfarer;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import com.SteelAmbition.Wayfarer.Tasks.TasksFragment;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -17,8 +18,6 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
-
         Crashlytics.start(this);
 
         //setContentView(R.layout.main);
