@@ -2,6 +2,7 @@ package com.SteelAmbition.Wayfarer.Tasks;
 
 import java.util.List;
 
+import android.content.Intent;
 import com.SteelAmbition.Wayfarer.R;
 
 
@@ -46,7 +47,7 @@ public class TaskRowAdapter extends ArrayAdapter<Task>{
                 final Task taskItem = (Task)item;
                 view = inflater.inflate(R.layout.list_taskrow, null);
                 final TextView title = (TextView)view.findViewById(R.id.tasktitle);
-                final TextView description = (TextView)view.findViewById(R.id.taskDescription);
+
 
 
 
@@ -56,10 +57,16 @@ public class TaskRowAdapter extends ArrayAdapter<Task>{
                     title.setText(Html.fromHtml(taskItem.title));
                 }
 
-                if (description != null && null != taskItem.description
-                        && taskItem.description.trim().length() > 0) {
-                    description.setText(Html.fromHtml(taskItem.description));
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), TaskExtended.class);
+                    intent.putExtra("title",taskItem.title);
+                    intent.putExtra("description", taskItem.description);
+                    getContext().startActivity(intent);
                 }
+            });
 
 
             }

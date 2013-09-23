@@ -6,14 +6,23 @@
     <uses-sdk android:minSdkVersion="17"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
-        <activity android:name="com.SteelAmbition.Wayfarer.MainActivity"
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher" android:theme="@style/Theme.Sherlock.Light">
+        <activity android:name="MainActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".Tasks.TaskExtended"
+                  android:label="@string/tasksTitle"
+                  android:parentActivityName=".MainActivity"/>
+        <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Forums.Topics.ViewTopics" />
+
+
         <meta-data android:name="com.crashlytics.ApiKey" android:value="03efe68dbbfa65529bfe123bb62c286916870fc4"/>
     </application>
 

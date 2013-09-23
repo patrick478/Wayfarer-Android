@@ -30,7 +30,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class TasksFragment extends SherlockFragment {
 
 
-	private ArrayList<Task> arrayOfList = new ArrayList<Task>();
+	private ArrayList<Task> arrayOfList;
     private TaskRowAdapter objAdapter;
 	private ListView taskList;
 
@@ -71,7 +71,7 @@ public class TasksFragment extends SherlockFragment {
             super.onPostExecute(result);
 
             getSherlockActivity().setProgressBarIndeterminateVisibility(false);
-
+            arrayOfList = new ArrayList<Task>();
 
             if (null == result || result.length() == 0) {
                 //TODO: handle no data found

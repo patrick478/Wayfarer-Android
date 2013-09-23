@@ -5,4 +5,5 @@
     <string name="dashboard">Dashboard</string>
     <string name="tasks">Tasks</string>
     <string name="social">Social</string>
+    <string name="tasksTitle">View Task Details</string>
 </resources>
