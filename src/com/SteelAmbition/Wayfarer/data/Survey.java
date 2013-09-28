@@ -28,4 +28,13 @@ public class Survey {
 		}
 	}
 	
+	public void apply(StateManager s){
+		for(Question q:questions){
+			q.apply(s);
+		}
+	}
+	
+	public String toString(){
+		return questions.toString();
+	}
 }

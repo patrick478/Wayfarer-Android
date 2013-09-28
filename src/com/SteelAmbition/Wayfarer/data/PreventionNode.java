@@ -24,6 +24,15 @@ public class PreventionNode {
 		return null;
 	}
 	
+	public boolean isComplete(){
+		for(Goal g:goals){
+			if(!g.isComplete()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public String toString(){
 		StringBuilder b = new StringBuilder();
 		b.append("{");

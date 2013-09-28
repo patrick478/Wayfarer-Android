@@ -13,13 +13,20 @@ public class Question {
 	
 	private String question;
 	private List<String> answers;
-	private int selectedAnswer;
+	private int selectedAnswer = -1;
 	
 	private Map<Integer,Double> weights; // Index -> Weight for informCard's affected
+	
+	private List<Map<String,Boolean>> outcomes; //Goals affected -> new goal state (completed or not)
 	
 	public Question(String question,List<String> answers){
 		this.question = question;
 		this.answers = answers;
+		weights = new HashMap<Integer,Double>();
+		outcomes = new ArrayList<Map<String,Boolean>>();
+		for(int i=0;i<answers.size();i++){
+			outcomes.add(new HashMap<String,Boolean>());
+		}
 	}
 	
 	public void answer(int ans){
@@ -39,6 +46,12 @@ public class Question {
 		return selectedAnswer;
 	}
 	
+	public void addOutcome(String ans, String node,boolean completion){
+		for(int i=0;i<answers.size();i++){
+			if(answers.get(i).equals(ans)) outcomes.get(i).put(node, completion);
+		}
+	}
+	
 	public String toString(){
 		StringBuilder b = new StringBuilder();
 		b.append("Q) "+question+"\n\n");
@@ -46,5 +59,16 @@ public class Question {
 			b.append(i+": "+answers.get(i)+"\n");
 		}
 		return b.toString();
+	}
+	
+	public boolean apply(StateManager s){
+		for(Goal g:s.getPreventionGoals()){
+			for(int i=0;i<outcomes.size();i++){
+				if(i == selectedAnswer && outcomes.get(i).containsKey(g.getName())){
+					g.complete(outcomes.get(i).get(g.getName()));
+				}
+			}
+		}
+		return true;
 	}
 }

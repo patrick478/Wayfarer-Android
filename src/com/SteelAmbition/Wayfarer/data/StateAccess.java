@@ -11,6 +11,9 @@ public interface StateAccess {
 	public List<Goal> getLongTermGoals();
 	public List<Goal> getRegularGoals();
 	
+	public Survey getSurvey();
+	public void applySurvey(Survey s);
+	
 	public void goPreventative();
 	public void goRecovery();
 }

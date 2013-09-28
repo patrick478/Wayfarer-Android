@@ -9,12 +9,13 @@ package com.SteelAmbition.Wayfarer.data;
  */
 public class InformCard implements Comparable<InformCard>{
 	
-	private int id;
-	private String info;
+	private String shortDescription;
+	private String longDescription;
 	private double weight;
 	
-	public InformCard(String content){
-		info = content;
+	public InformCard(String shortDesc,String longDesc){
+		shortDescription = shortDesc;
+		longDescription = longDesc;
 	}
 
 	public int compareTo(InformCard o) {
@@ -27,12 +28,16 @@ public class InformCard implements Comparable<InformCard>{
 		weight += num;
 	}
 	
-	public String getContent(){
-		return info;
+	public String getShortDescription(){
+		return shortDescription;
+	}
+	
+	public String getLongDescription(){
+		return longDescription;
 	}
 	
 	public String toString(){
-		return info;
+		return shortDescription;
 	}
 	
 }

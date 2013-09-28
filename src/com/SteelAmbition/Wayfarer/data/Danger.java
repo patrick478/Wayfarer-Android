@@ -8,11 +8,15 @@ package com.SteelAmbition.Wayfarer.data;
 public class Danger implements Comparable<Danger>{
 	
 	private String name;
+	private String description;
 	private double level;
+	private Question relevantQuestion;
 	
-	public Danger(String name, double level){
+	public Danger(String name, String desc, double level, Question q){
 		this.name = name;
 		this.level = level;
+		relevantQuestion = q;
+		description = desc;
 	}
 
 	public String getName() {
@@ -21,6 +25,10 @@ public class Danger implements Comparable<Danger>{
 	
 	public double getLevel() {
 		return level;
+	}
+	
+	public Question getRelevantQuestion(){
+		return relevantQuestion;
 	}
 
 	@Override

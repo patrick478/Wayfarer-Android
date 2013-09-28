@@ -3,7 +3,7 @@
     <string name="app_name">Wayfarer</string>
 
     <string name="dashboard">Dashboard</string>
-    <string name="tasks">Tasks</string>
+    <string name="goals">Goals</string>
     <string name="social">Social</string>
-    <string name="tasksTitle">View Task Details</string>
+    <string name="goalsTitle">View Goal Details</string>
 </resources>

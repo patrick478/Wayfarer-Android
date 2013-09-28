@@ -13,19 +13,20 @@ import com.SteelAmbition.Wayfarer.loader.*;
  */
 public class StateManager implements StateAccess{
 	
-	private boolean preventative = true;
+	private String state = "Preventative";
 	
 	private List<PreventionNode> preventionNodes = new ArrayList<PreventionNode>();
 	private int preventionNodeIndex = 0;
 	private List<RecoveryNode> recoveryNodes = new ArrayList<RecoveryNode>();
 	private int recoveryNodeIndex = 0;
 	
+	private List<Goal> goalPool = new ArrayList<Goal>();
+	
 	private List<Danger> dangers = new ArrayList<Danger>();
-	private List<InformCard> informCards;
+	private List<InformCard> informCards = new ArrayList<InformCard>();
 	
 	private Survey survey;
-	
-	private String state = "Preventative";
+	private Date lastSurvey;
 	
 	public StateManager(Loader l){
 		dangers = l.loadDangers();
@@ -34,18 +35,43 @@ public class StateManager implements StateAccess{
 		recoveryNodes = l.loadRecoveryNodes();
 		survey = l.loadSurvey();
 		informCards = l.loadInformCards();
+		lastSurvey = l.getLastSurvey();
+	}
+	
+	public StateManager(Database db, Survey s){
+		for(Goal g:db.getPreventativeGoals()){
+			preventionNodes.add(new PreventionNode(Arrays.asList(new Goal[]{g})));
+		}
+		for(Goal g:db.getRecoveryGoals()){
+			recoveryNodes.add(new RecoveryNode(Arrays.asList(new Goal[]{g}),Arrays.asList(new Goal[0])));
+		}
+		for(Goal g:db.getRegularGoals()){
+			goalPool.add(g);
+		}
+		for(Danger d:db.getDangers()){
+			dangers.add(d);
+		}
+		for(InformCard i:db.getInformCards()){
+			informCards.add(i);
+		}
+		s.apply(this);
 	}
 	
 	public void goPreventative(){
-		preventative = true;
+		state = "Preventative";
+		preventionNodeIndex = 0;
 	}
 	
 	public void goRecovery(){
-		preventative = false;
+		state = "Recovery";
 	}
 	
 	public List<InformCard> getMostRelevantInfo(int num){
 		survey.sortInfo(informCards);
+		return informCards;
+	}
+	
+	public List<InformCard> getInformCards(){
 		return informCards;
 	}
 	
@@ -106,5 +132,45 @@ public class StateManager implements StateAccess{
 
 	public List<Goal> getRegularGoals() {
 		return recoveryNodes.get(recoveryNodeIndex).getRegularGoals();
+	}
+	
+	public void applySurvey(Survey s) {
+		s.apply(this);
+		updateState();
+	}
+	
+	public void setPreventionNodes(List<PreventionNode> ns){
+		preventionNodeIndex = 0;
+		preventionNodes = ns;
+	}
+	
+	private void updateState(){
+		if(state.equals("Preventative") && preventionNodes.get(preventionNodeIndex).isComplete()){
+			preventionNodeIndex++;
+			if(preventionNodeIndex == preventionNodes.size()) state = "Recovery";
+		}
+	}
+	
+	/*public void fixGSON(){
+		if(preventionNodes == null) preventionNodes = new ArrayList<PreventionNode>();
+		if(recoveryNodes == null) recoveryNodes = new ArrayList<RecoveryNode>();
+		if(goalPool == null) goalPool = new ArrayList<Goal>();
+		if(informCards == null) informCards = new ArrayList<InformCard>();
+		if(dangers == null) dangers = new ArrayList<Danger>();
+	}*/
+	
+	public Survey getSurvey() {
+		//if(new Date().getTime() - lastSurvey.getTime() < 1000*60*60*24)	return null;
+		List<Question> qs = new ArrayList<Question>();
+		for(Goal g:preventionNodes.get(preventionNodeIndex).getGoals()){
+			qs.add(new Question(g.getRelatedQuestion(),Arrays.asList(new String[]{"Yes", "No"})));
+		}
+		Collections.sort(dangers);
+		for(int i=0;i<3 && i<dangers.size();i++){
+			qs.add(dangers.get(i).getRelevantQuestion());
+		}
+		survey = new Survey(qs);
+		lastSurvey = new Date();
+		return survey;
 	}
 }
