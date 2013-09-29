@@ -145,14 +145,14 @@ public class Main {
 		try {
 			// Set up & establish connection
 			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setReadTimeout(100000);
 			conn.setConnectTimeout(150000);
 			conn.setRequestMethod("GET");
 			conn.addRequestProperty("Content-Type", "application/json");
 			conn.setDoInput(true);
-			conn.setDoOutput(true);
-
+			conn.setDoOutput(false);
+            int responsecode = conn.getResponseCode();
 			// Get response
             if(conn.getResponseCode() != 200) return null;
             Gson gson = new GsonBuilder().setPrettyPrinting().create();

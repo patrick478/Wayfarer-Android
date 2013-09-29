@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Window;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
 import com.SteelAmbition.Wayfarer.data.*;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -28,19 +29,18 @@ public class MainActivity extends SherlockFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Crashlytics.start(this);
-
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         ///load the file
         userID = "52073447a8f0a70200000001";
         subjectID  = "524110645924220200000007";
 
         stateManager = null;
-        userID = null;
-        subjectID = null;
+
 
 
         //setContentView(R.layout.main);
-        stateManager = Main.readState(subjectID);
+        //stateManager = Main.readState(subjectID);
         setUp();
         addTabs();
     }
@@ -71,7 +71,7 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onStop();
         //TODO commit changes
 
-        Main.postState(stateManager, userID);
+        new PostState().execute();
     }
 
 
@@ -121,6 +121,28 @@ public class MainActivity extends SherlockFragmentActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+        }
+    }
+
+
+    class PostState extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Main.postState(stateManager, userID);
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+
+
+        @Override
+        protected void onPostExecute(Void v) {
+            super.onPostExecute(v);
         }
     }
                                           //TODO asdasdasd
