@@ -9,7 +9,7 @@ import java.util.*;
  * @author Jeff
  *
  */
-public class Goal {
+public class Goal implements Comparable<Goal>{
 
 	private String name;
 	private String description;
@@ -53,5 +53,18 @@ public Goal(String name,String description,String relatedQuestion){
 	
 	public String getRelatedQuestion(){
 		return relatedQuestion;
+	}
+	
+	public Date getCompleteTime(){
+		return completeTime;
+	}
+	
+	public int compareTo(Goal g){
+		if(completeTime == null){
+			if(g.completeTime == null) return 0;
+			else return -1;
+		}
+		if(g.completeTime == null) return 1;
+		return (int) (completeTime.getTime() - g.completeTime.getTime());
 	}
 }

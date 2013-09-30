@@ -7,14 +7,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
-import com.SteelAmbition.Wayfarer.data.*;
+import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuInflater;
-import com.crashlytics.android.Crashlytics;
-
-import java.util.ArrayList;
+import com.actionbarsherlock.view.MenuItem;
 
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -114,7 +111,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            MainActivity.stateManager = Main.readState(params[0]);
+            MainActivity.stateManager = StateManager.readState(params[0]);
             return Utils.getJSONString("http://wayfarer-server.herokuapp.com/steps");
         }
 
@@ -134,7 +131,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            Main.postState(stateManager, userID);
+            StateManager.postState(stateManager, userID);
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
 

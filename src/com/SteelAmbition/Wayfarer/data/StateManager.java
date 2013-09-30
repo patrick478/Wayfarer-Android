@@ -1,8 +1,14 @@
 package com.SteelAmbition.Wayfarer.data;
 
-import java.util.*;
+import com.SteelAmbition.Wayfarer.loader.Loader;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
 
-import com.SteelAmbition.Wayfarer.loader.*;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 
 /**
@@ -172,5 +178,154 @@ public class StateManager implements StateAccess{
 		survey = new Survey(qs);
 		lastSurvey = new Date();
 		return survey;
+	}
+	
+	public void completeGoal(String goalName){
+		for(Goal g:getPreventionGoals()){
+			if(goalName.equals(g.getName())){
+				g.complete(true);
+			}
+		}
+		for(Goal g:getLongTermGoals()){
+			if(goalName.equals(g.getName())){
+				g.complete(true);
+			}
+		}
+		for(Goal g:getRegularGoals()){
+			if(goalName.equals(g.getName())){
+				g.complete(true);
+			}
+		}
+	}
+	
+	public List<Goal> getCompletedGoals(){
+		List<Goal> ans = new ArrayList<Goal>();
+		for(Goal g:getPreventionGoals()){
+			if(g.isComplete()){
+				ans.add(g);
+			}
+		}
+		for(Goal g:getLongTermGoals()){
+			if(g.isComplete()){
+				ans.add(g);
+			}
+		}
+		for(Goal g:getRegularGoals()){
+			if(g.isComplete()){
+				ans.add(g);
+			}
+		}
+		Collections.sort(ans);
+		return ans;
+	}
+	
+	//--------------
+	//STATIC METHODS
+	
+	public static Database newUserDatabase(String name){
+		Database db = null;
+		try { 
+			// Set up & establish connection 
+			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+			conn.setReadTimeout(100000); 
+			conn.setConnectTimeout(150000); 
+			conn.setRequestMethod("PUT"); 
+			conn.addRequestProperty("Content-Type", "application/json");
+			conn.setDoInput(true); 
+			conn.setDoOutput(true); 
+
+			// Send data 
+			OutputStream os = conn.getOutputStream(); 
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, 
+					"UTF-8")); 
+			//System.out.println(a.getHtml());
+			bw.write("{\"name\": \""+name+"\"}");
+			bw.close(); 
+			os.close(); 
+
+			// Get response 
+			String reply = convertStreamToString(conn.getInputStream());
+			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()+"\n"+reply); 
+			JsonReader jr = new JsonReader(new StringReader(reply));
+			jr.setLenient(true);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			db = gson.fromJson(jr,Database.class);
+		} catch (MalformedURLException e) { 
+			System.out.println("PostTask "+e.getMessage()); 
+		} catch (IOException e) { 
+			System.out.println("PostTask "+e.getMessage()); 
+		} 
+		return db;
+	}
+	
+	public static void postState(StateManager state,String id){
+		try { 
+			// Set up & establish connection 
+			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+			conn.setReadTimeout(100000); 
+			conn.setConnectTimeout(150000); 
+			conn.setRequestMethod("POST"); 
+			conn.addRequestProperty("Content-Type", "application/json");
+			conn.setDoInput(true); 
+			conn.setDoOutput(true); 
+
+			// Send data 
+			OutputStream os = conn.getOutputStream(); 
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, 
+					"UTF-8")); 
+			//System.out.println(a.getHtml());
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String out = gson.toJson(state);
+			bw.write("{\"state\": "+out+"}");
+			bw.close(); 
+			os.close(); 
+			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()); 
+			System.out.println("{\"state\": "+out+"}");
+
+			// Get response 
+		} catch (MalformedURLException e) { 
+			System.out.println("PostTask "+e.getMessage()); 
+		} catch (IOException e) { 
+			System.out.println("PostTask "+e.getMessage()); 
+		} 
+	}
+	
+	public static StateManager readState(String id){
+		StateManager state = null;
+		try { 
+			// Set up & establish connection 
+			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
+			conn.setReadTimeout(100000); 
+			conn.setConnectTimeout(150000); 
+			conn.setRequestMethod("GET"); 
+			conn.addRequestProperty("Content-Type", "application/json");
+			conn.setDoInput(true); 
+			conn.setDoOutput(false);
+
+			// Get response 
+			if(conn.getResponseCode() != 200) return null;
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String reply = convertStreamToString(conn.getInputStream());
+			JsonElement jelement = new JsonParser().parse(reply);
+			JsonObject  jobject = jelement.getAsJsonObject();
+			reply = jobject.get("state").toString();
+			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()+"\n"+reply); 
+			JsonReader jr = new JsonReader(new StringReader(reply));
+			jr.setLenient(true);
+			state = gson.fromJson(jr,StateManager.class);
+		} catch (MalformedURLException e) { 
+			System.out.println("PostTask "+e.getMessage()); 
+		} catch (IOException e) { 
+			System.out.println("PostTask "+e.getMessage()); 
+		} 
+		return state;
+	}
+	
+	private static String convertStreamToString(InputStream is) {
+	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+	    return s.hasNext() ? s.next() : "";
 	}
 }

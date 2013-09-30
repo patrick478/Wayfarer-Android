@@ -7,7 +7,6 @@ import android.text.Html;
 import android.widget.TextView;
 import com.SteelAmbition.Wayfarer.MainActivity;
 import com.SteelAmbition.Wayfarer.R;
-import com.SteelAmbition.Wayfarer.data.Main;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -74,7 +73,7 @@ public class GoalExtended extends SherlockFragmentActivity {
                 break;
 
             case R.menu.extended_goal_menu:
-                //complete task here
+
                 break;
         }
 

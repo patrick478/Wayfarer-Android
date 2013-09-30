@@ -69,6 +69,20 @@ public class Question {
 				}
 			}
 		}
+		for(Goal g:s.getLongTermGoals()){
+			for(int i=0;i<outcomes.size();i++){
+				if(i == selectedAnswer && outcomes.get(i).containsKey(g.getName())){
+					g.complete(outcomes.get(i).get(g.getName()));
+				}
+			}
+		}
+		for(Goal g:s.getRegularGoals()){
+			for(int i=0;i<outcomes.size();i++){
+				if(i == selectedAnswer && outcomes.get(i).containsKey(g.getName())){
+					g.complete(outcomes.get(i).get(g.getName()));
+				}
+			}
+		}
 		return true;
 	}
 }
