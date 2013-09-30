@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
+import com.SteelAmbition.Wayfarer.AsyncTasks.PostState;
 import com.SteelAmbition.Wayfarer.MainActivity;
 import com.SteelAmbition.Wayfarer.R;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -75,6 +76,7 @@ public class GoalExtended extends SherlockFragmentActivity {
 
             case R.id.complete_task:
                 MainActivity.stateManager.completeGoal(name);
+                new PostState().execute();
                 this.finish();
                 break;
         }

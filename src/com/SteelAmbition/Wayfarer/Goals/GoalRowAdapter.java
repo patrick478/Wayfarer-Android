@@ -2,6 +2,7 @@ package com.SteelAmbition.Wayfarer.Goals;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -52,6 +53,11 @@ public class GoalRowAdapter extends ArrayAdapter<Goal>{
                 if (title != null && null != goalItem.getName()
                         && goalItem.getName().trim().length() > 0) {
                     title.setText(Html.fromHtml(goalItem.getName()));
+                }
+
+                if (item.isComplete()){
+
+                  title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
 
 

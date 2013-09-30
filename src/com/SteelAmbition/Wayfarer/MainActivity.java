@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
+import com.SteelAmbition.Wayfarer.AsyncTasks.PostState;
 import com.SteelAmbition.Wayfarer.Authentication.CreateSubjectActivity;
 import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
@@ -176,26 +177,7 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
 
-    class PostState extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            StateManager.postState(stateManager, userID);
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
-
-
-        @Override
-        protected void onPostExecute(Void v) {
-            super.onPostExecute(v);
-        }
-    }
                                           //TODO asdasdasd
 //    private createNewSubject(){
 //
