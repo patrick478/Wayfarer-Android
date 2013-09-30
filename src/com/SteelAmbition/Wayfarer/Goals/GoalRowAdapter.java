@@ -1,13 +1,7 @@
 package com.SteelAmbition.Wayfarer.Goals;
 
-import java.util.List;
-
-import android.content.Intent;
-import com.SteelAmbition.Wayfarer.R;
-
-
-
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -15,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.SteelAmbition.Wayfarer.R;
 import com.SteelAmbition.Wayfarer.data.Goal;
+
+import java.util.List;
 
 
 public class GoalRowAdapter extends ArrayAdapter<Goal>{
@@ -64,6 +61,7 @@ public class GoalRowAdapter extends ArrayAdapter<Goal>{
                     Intent intent = new Intent(getContext(), GoalExtended.class);
                     intent.putExtra("title",goalItem.getName());
                     intent.putExtra("description", goalItem.getDescription());
+                    intent.putExtra("name", goalItem.getName());
                     getContext().startActivity(intent);
                 }
             });

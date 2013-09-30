@@ -1,12 +1,15 @@
 package com.SteelAmbition.Wayfarer;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
+import com.SteelAmbition.Wayfarer.crouton.Crouton;
+import com.SteelAmbition.Wayfarer.crouton.Style;
 import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -18,6 +21,8 @@ public class MainActivity extends SherlockFragmentActivity {
     public static StateManager stateManager;
     public static String userID;
     public static String subjectID;
+
+    private Activity activity;
 
     /**
      * Called when the activity is first created.
@@ -34,7 +39,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         stateManager = null;
 
-
+        activity = this;
 
         //setContentView(R.layout.main);
         //stateManager = Main.readState(subjectID);
@@ -112,12 +117,14 @@ public class MainActivity extends SherlockFragmentActivity {
         @Override
         protected String doInBackground(String... params) {
             MainActivity.stateManager = StateManager.readState(params[0]);
+
             return Utils.getJSONString("http://wayfarer-server.herokuapp.com/steps");
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            Crouton.showText(activity, "Total comppleted tasks: " + String.valueOf(stateManager.getCompletedGoals().size()), Style.INFO);
         }
     }
 

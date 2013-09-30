@@ -1,7 +1,6 @@
 package com.SteelAmbition.Wayfarer.Goals;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ public class GoalExtended extends SherlockFragmentActivity {
     private TextView descriptionTextView;
     private String title;
     private String description;
+    private String name;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class GoalExtended extends SherlockFragmentActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         description = intent.getStringExtra("description");
+        name = intent.getStringExtra("name");
 
         titleTextview =(TextView) findViewById(R.id.goalTitle);
         descriptionTextView =(TextView) findViewById(R.id.goalDescription);
@@ -72,8 +73,9 @@ public class GoalExtended extends SherlockFragmentActivity {
                 this.finish();
                 break;
 
-            case R.menu.extended_goal_menu:
-
+            case R.id.complete_task:
+                MainActivity.stateManager.completeGoal(name);
+                this.finish();
                 break;
         }
 
