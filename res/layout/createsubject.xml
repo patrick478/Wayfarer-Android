@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        >
+    <!--  Email Label -->
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:textColor="#372c24"
+              android:text="Name"/>
+    <EditText android:id="@+id/createsubject_name"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dip"
+              android:layout_marginBottom="10dip"
+              android:singleLine="true"
+              android:imeOptions="actionNext" android:inputType="textCapWords|textEmailAddress"/>
+    <!--  Password Label -->
+    <!-- Login button -->
+    <Button android:id="@+id/btnCreateSubject"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:text="Create Subject"/>
+    <!-- Link to Registration Screen -->
+
+</LinearLayout>

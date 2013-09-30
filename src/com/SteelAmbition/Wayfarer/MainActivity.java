@@ -3,18 +3,20 @@ package com.SteelAmbition.Wayfarer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
+import com.SteelAmbition.Wayfarer.Authentication.CreateSubjectActivity;
+import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
-import com.SteelAmbition.Wayfarer.crouton.Crouton;
-import com.SteelAmbition.Wayfarer.crouton.Style;
 import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.crashlytics.android.Crashlytics;
 
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -30,12 +32,17 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Crashlytics.start(this);
+        Crashlytics.start(this);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
+
+        setUserAndSubjectFromSharedPrefs();
+
+
+
         ///load the file
-        userID = "52073447a8f0a70200000001";
-        subjectID  = "524110645924220200000007";
+
+
 
         stateManager = null;
 
@@ -43,30 +50,61 @@ public class MainActivity extends SherlockFragmentActivity {
 
         //setContentView(R.layout.main);
         //stateManager = Main.readState(subjectID);
+
         setUp();
         addTabs();
+    }
+
+    private void setUserAndSubjectFromSharedPrefs() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("user", 0);
+        if(sharedPreferences.getBoolean("logged_in", false)==false){
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        }
+        else{
+            userID = sharedPreferences.getString("id", "");
+
+            SharedPreferences subjectPreferences = getSharedPreferences("subject", 0);
+            if(subjectPreferences.getString("id", "")==""){
+                Intent intent = new Intent(this, CreateSubjectActivity.class);
+                startActivity(intent);
+            }
+            else{
+                subjectID = subjectPreferences.getString("id", "");
+
+            }
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.emergency_menu, menu);
+        inflater.inflate(R.menu.main_activity_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //TODO fix up
-//        switch (item.getItemId()) {
-//            case R.menu.emergency_menu:
+        switch (item.getItemId()) {
+            case R.id.emergency_call:
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 //0800543354 is the real number
                 callIntent.setData(Uri.parse("tel:02108210330"));
                 startActivity(callIntent);
+
+
                 return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
+
+            case R.id.register:
+                Intent intent = new Intent(this, RegisterActivity.class);
+                activity.startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     @Override
     public void onStop(){
@@ -74,6 +112,14 @@ public class MainActivity extends SherlockFragmentActivity {
         //TODO commit changes
 
         new PostState().execute();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setUserAndSubjectFromSharedPrefs();
+        setUp();
+
     }
 
 
@@ -104,6 +150,7 @@ public class MainActivity extends SherlockFragmentActivity {
 //        stateManager = new StateManager(db, s);
 //        userID = db.getId();
 //        Main.postState(stateManager, userID);
+        setUserAndSubjectFromSharedPrefs();
         new SubjectLoader().execute(subjectID);
     }
 
@@ -124,7 +171,7 @@ public class MainActivity extends SherlockFragmentActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Crouton.showText(activity, "Total comppleted tasks: " + String.valueOf(stateManager.getCompletedGoals().size()), Style.INFO);
+
         }
     }
 
