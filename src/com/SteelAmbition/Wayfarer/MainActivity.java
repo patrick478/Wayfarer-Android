@@ -28,7 +28,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+        //Crashlytics.start(this);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         ///load the file

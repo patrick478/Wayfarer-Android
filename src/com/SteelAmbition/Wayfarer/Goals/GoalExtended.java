@@ -1,6 +1,7 @@
 package com.SteelAmbition.Wayfarer.Goals;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
@@ -8,6 +9,8 @@ import com.SteelAmbition.Wayfarer.MainActivity;
 import com.SteelAmbition.Wayfarer.R;
 import com.SteelAmbition.Wayfarer.data.Main;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 /**
@@ -52,18 +55,29 @@ public class GoalExtended extends SherlockFragmentActivity {
 
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.extended_goal_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO fix up
         switch (item.getItemId()) {
             case android.R.id.home:
                 // app icon in action bar clicked; go home
                 this.finish();
                 break;
-            case android.R.id.checkbox:
-                // app icon in action bar clicked; go home
 
-                this.finish();
+            case R.menu.extended_goal_menu:
+                //complete task here
                 break;
         }
+
         return true;
     }
 }
