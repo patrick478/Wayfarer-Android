@@ -11,6 +11,7 @@ import android.view.Window;
 import com.SteelAmbition.Wayfarer.AsyncTasks.PostState;
 import com.SteelAmbition.Wayfarer.Authentication.CreateSubjectActivity;
 import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
+import com.SteelAmbition.Wayfarer.Dangers.DangersFragment;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
 import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -132,6 +133,11 @@ public class MainActivity extends SherlockFragmentActivity {
         com.actionbarsherlock.app.ActionBar.Tab goalsTab = bar.newTab().setText(goalsTitle);
         goalsTab.setTabListener(new TabListener(this, goalsTitle, GoalsFragment.class));
         bar.addTab(goalsTab);
+
+        String dangersTitle = getResources().getString(R.string.dangers);
+        com.actionbarsherlock.app.ActionBar.Tab dangersTab = bar.newTab().setText(dangersTitle);
+        dangersTab.setTabListener(new TabListener(this, dangersTitle, DangersFragment.class));
+        bar.addTab(dangersTab);
 
         String dashboardTitle = getResources().getString(R.string.dashboard);
         com.actionbarsherlock.app.ActionBar.Tab dashboardTab = bar.newTab().setText(dashboardTitle);

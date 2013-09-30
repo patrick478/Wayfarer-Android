@@ -28,6 +28,9 @@
                   android:label="@string/createSubjectTitle"
                   android:parentActivityName=".MainActivity"/>
 
+        <activity android:name=".Dangers.DangerExtended"
+                  android:label="@string/dangersTitle"
+                  android:parentActivityName=".MainActivity"/>
 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="03efe68dbbfa65529bfe123bb62c286916870fc4"/>
     </application>

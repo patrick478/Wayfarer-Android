@@ -53,12 +53,13 @@ public class GoalRowAdapter extends ArrayAdapter<Goal>{
                 if (title != null && null != goalItem.getName()
                         && goalItem.getName().trim().length() > 0) {
                     title.setText(Html.fromHtml(goalItem.getName()));
+                    if (item.isComplete()){
+
+                        title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
                 }
 
-                if (item.isComplete()){
 
-                  title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                }
 
 
             view.setOnClickListener(new View.OnClickListener() {
