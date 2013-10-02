@@ -97,6 +97,8 @@ public class RegisterActivity extends SherlockFragmentActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            activity.setProgressBarIndeterminateVisibility(true);
+
         }
 
         @Override
@@ -188,6 +190,7 @@ public class RegisterActivity extends SherlockFragmentActivity {
                  } catch (JSONException e) {
                      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                  }
+                 activity.setProgressBarIndeterminateVisibility(false);
 
                  activity.finish();
 

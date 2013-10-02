@@ -3,7 +3,7 @@ package com.SteelAmbition.Wayfarer.data;
 import java.util.*;
 
 /**
- * A collection of questions that can sort information based on the questions it keeps
+ * A collection of questions that can sort informations based on the questions it keeps
  * 
  * @author Jeff
  *

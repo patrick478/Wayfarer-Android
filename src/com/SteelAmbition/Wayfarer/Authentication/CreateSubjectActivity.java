@@ -76,6 +76,8 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            activity.setProgressBarIndeterminateVisibility(true);
+
         }
 
         @Override
@@ -105,8 +107,9 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
 
              editor.commit();
 
+            activity.setProgressBarIndeterminateVisibility(false);
 
-             activity.finish();
+            activity.finish();
 
         }
 

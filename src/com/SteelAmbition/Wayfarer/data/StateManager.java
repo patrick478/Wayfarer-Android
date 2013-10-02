@@ -246,11 +246,19 @@ public class StateManager implements StateAccess{
 
 			// Get response 
 			String reply = convertStreamToString(conn.getInputStream());
+            String id = "";
+            JsonElement jelement = new JsonParser().parse(reply);
+            JsonObject  jobject = jelement.getAsJsonObject();
+            id = jobject.get("id").toString().substring(1, jobject.get("id").toString().length()-1);
+            jelement = new JsonParser().parse(reply);
+             jobject = jelement.getAsJsonObject();
+            reply = jobject.get("datapool").toString();
 			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()+"\n"+reply); 
 			JsonReader jr = new JsonReader(new StringReader(reply));
 			jr.setLenient(true);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			db = gson.fromJson(jr,Database.class);
+            db.setID(id);
 		} catch (MalformedURLException e) { 
 			System.out.println("PostTask "+e.getMessage()); 
 		} catch (IOException e) { 

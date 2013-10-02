@@ -3,7 +3,7 @@ package com.SteelAmbition.Wayfarer.data;
 import java.util.*;
 
 /**
- * A question that can be asked to help sort information and dangers.
+ * A question that can be asked to help sort informations and dangers.
  * Stores the answer on the question.
  * 
  * @author Jeff

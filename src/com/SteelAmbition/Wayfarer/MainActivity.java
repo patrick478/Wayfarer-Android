@@ -13,6 +13,7 @@ import com.SteelAmbition.Wayfarer.Authentication.CreateSubjectActivity;
 import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
 import com.SteelAmbition.Wayfarer.Dangers.DangersFragment;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
+import com.SteelAmbition.Wayfarer.Information.InformationFragment;
 import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -53,7 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
         //setContentView(R.layout.main);
         //stateManager = Main.readState(subjectID);
 
-        setUp();
+        //setUp();
         addTabs();
     }
 
@@ -74,7 +75,7 @@ public class MainActivity extends SherlockFragmentActivity {
             }
             else{
                 subjectID = subjectPreferences.getString("id", "");
-
+                setUp();
             }
         }
     }
@@ -120,7 +121,7 @@ public class MainActivity extends SherlockFragmentActivity {
     public void onResume(){
         super.onResume();
         setUserAndSubjectFromSharedPrefs();
-        setUp();
+        //setUp();
 
     }
 
@@ -138,6 +139,11 @@ public class MainActivity extends SherlockFragmentActivity {
         com.actionbarsherlock.app.ActionBar.Tab dangersTab = bar.newTab().setText(dangersTitle);
         dangersTab.setTabListener(new TabListener(this, dangersTitle, DangersFragment.class));
         bar.addTab(dangersTab);
+
+        String infoTitle = getResources().getString(R.string.info);
+        com.actionbarsherlock.app.ActionBar.Tab infoTab = bar.newTab().setText(infoTitle);
+        infoTab.setTabListener(new TabListener(this, dangersTitle, InformationFragment.class));
+        bar.addTab(infoTab);
 
         String dashboardTitle = getResources().getString(R.string.dashboard);
         com.actionbarsherlock.app.ActionBar.Tab dashboardTab = bar.newTab().setText(dashboardTitle);
@@ -157,7 +163,7 @@ public class MainActivity extends SherlockFragmentActivity {
 //        stateManager = new StateManager(db, s);
 //        userID = db.getId();
 //        Main.postState(stateManager, userID);
-        setUserAndSubjectFromSharedPrefs();
+        //setUserAndSubjectFromSharedPrefs();
         new SubjectLoader().execute(subjectID);
     }
 

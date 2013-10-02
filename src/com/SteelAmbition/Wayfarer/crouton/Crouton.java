@@ -41,7 +41,7 @@ import android.widget.TextView;
 
 
 /**
- * Displays information in a non-invasive context related manner. Like
+ * Displays informations in a non-invasive context related manner. Like
  * {@link android.widget.Toast}, but better.
  * <p/>
  * <b>Important: </b>
