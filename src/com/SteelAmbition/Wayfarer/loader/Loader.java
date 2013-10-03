@@ -29,7 +29,8 @@ public class Loader {
 			byte[] b = new byte[(int)f.length()];
 			fis.read(b);
 			String s = new String(b);
-		} catch(IOException | IllegalArgumentException e){}
+		} catch(IOException e) {
+        } catch(IllegalArgumentException e){}
 		//s = JSONSerializer.
 	}
 	
