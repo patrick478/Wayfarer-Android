@@ -1,11 +1,5 @@
 package com.SteelAmbition.Wayfarer.Goals;
 
-import java.util.ArrayList;
-
-import android.view.Window;
-import com.SteelAmbition.Wayfarer.MainActivity;
-import com.SteelAmbition.Wayfarer.Utils;
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
+import com.SteelAmbition.Wayfarer.MainActivity;
 import com.SteelAmbition.Wayfarer.R;
+import com.SteelAmbition.Wayfarer.Utils;
 import com.SteelAmbition.Wayfarer.data.Goal;
 import com.actionbarsherlock.app.SherlockFragment;
+
+import java.util.ArrayList;
 
 
 /**
@@ -43,7 +40,8 @@ public class GoalsFragment extends SherlockFragment {
         super.onActivityCreated(savedInstanceState);
 
         goalList = (ListView)getView().findViewById(R.id.goalsList);
-        new ShowGoals().execute();
+        if(MainActivity.stateManager!=null)
+            new ShowGoals().execute();
     }
 
 

@@ -19,10 +19,22 @@
         <activity android:name=".Goals.GoalExtended"
                   android:label="@string/goalsTitle"
                   android:parentActivityName=".MainActivity"/>
-        <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Forums.Topics.ViewTopics" />
 
+        <activity android:name=".Authentication.RegisterActivity"
+        android:label="@string/registerTitle"
+        android:parentActivityName=".MainActivity"/>
+
+        <activity android:name=".Authentication.CreateSubjectActivity"
+                  android:label="@string/createSubjectTitle"
+                  android:parentActivityName=".MainActivity"/>
+
+        <activity android:name=".Dangers.DangerExtended"
+                  android:label="@string/dangersTitle"
+                  android:parentActivityName=".MainActivity"/>
+
+        <activity android:name=".Information.InformationExtended"
+                  android:label="@string/infoTitle"
+                  android:parentActivityName=".MainActivity"/>
 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="03efe68dbbfa65529bfe123bb62c286916870fc4"/>
     </application>

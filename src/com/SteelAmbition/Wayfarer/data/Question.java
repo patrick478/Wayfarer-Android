@@ -3,7 +3,7 @@ package com.SteelAmbition.Wayfarer.data;
 import java.util.*;
 
 /**
- * A question that can be asked to help sort information and dangers.
+ * A question that can be asked to help sort informations and dangers.
  * Stores the answer on the question.
  * 
  * @author Jeff
@@ -63,6 +63,20 @@ public class Question {
 	
 	public boolean apply(StateManager s){
 		for(Goal g:s.getPreventionGoals()){
+			for(int i=0;i<outcomes.size();i++){
+				if(i == selectedAnswer && outcomes.get(i).containsKey(g.getName())){
+					g.complete(outcomes.get(i).get(g.getName()));
+				}
+			}
+		}
+		for(Goal g:s.getLongTermGoals()){
+			for(int i=0;i<outcomes.size();i++){
+				if(i == selectedAnswer && outcomes.get(i).containsKey(g.getName())){
+					g.complete(outcomes.get(i).get(g.getName()));
+				}
+			}
+		}
+		for(Goal g:s.getRegularGoals()){
 			for(int i=0;i<outcomes.size();i++){
 				if(i == selectedAnswer && outcomes.get(i).containsKey(g.getName())){
 					g.complete(outcomes.get(i).get(g.getName()));

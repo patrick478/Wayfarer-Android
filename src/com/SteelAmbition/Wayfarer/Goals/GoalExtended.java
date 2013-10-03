@@ -1,13 +1,12 @@
 package com.SteelAmbition.Wayfarer.Goals;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
+import com.SteelAmbition.Wayfarer.AsyncTasks.PostState;
 import com.SteelAmbition.Wayfarer.MainActivity;
 import com.SteelAmbition.Wayfarer.R;
-import com.SteelAmbition.Wayfarer.data.Main;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -26,6 +25,7 @@ public class GoalExtended extends SherlockFragmentActivity {
     private TextView descriptionTextView;
     private String title;
     private String description;
+    private String name;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class GoalExtended extends SherlockFragmentActivity {
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         description = intent.getStringExtra("description");
+        name = intent.getStringExtra("name");
 
         titleTextview =(TextView) findViewById(R.id.goalTitle);
         descriptionTextView =(TextView) findViewById(R.id.goalDescription);
@@ -73,8 +74,10 @@ public class GoalExtended extends SherlockFragmentActivity {
                 this.finish();
                 break;
 
-            case R.menu.extended_goal_menu:
-                //complete task here
+            case R.id.complete_task:
+                MainActivity.stateManager.completeGoal(name);
+                new PostState().execute();
+                this.finish();
                 break;
         }
 

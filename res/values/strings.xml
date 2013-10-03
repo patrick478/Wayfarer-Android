@@ -5,5 +5,12 @@
     <string name="dashboard">Dashboard</string>
     <string name="goals">Goals</string>
     <string name="social">Social</string>
-    <string name="goalsTitle">View Goal Details</string>
+    <string name="dangers">Dangers</string>
+    <string name="info">Info</string>
+
+    <string name="goalsTitle">View Goal</string>
+    <string name="infoTitle">View Info</string>
+    <string name="dangersTitle">View Danger</string>
+    <string name="registerTitle">Register</string>
+    <string name="createSubjectTitle">Create Subject</string>
 </resources>
