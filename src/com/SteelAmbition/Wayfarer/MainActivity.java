@@ -88,7 +88,10 @@ public class MainActivity extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.main_activity_menu, menu);
-        ShowcaseView.insertShowcaseViewWithType(ShowcaseView.ITEM_ACTION_ITEM, R.id.emergency_call, this, "Emergency information", "In a crisis situation, hit this button to find out about people who can help, and dial straight through to them with one tap.", new ShowcaseView.ConfigOptions());
+
+        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+        co.shotType = ShowcaseView.TYPE_ONE_SHOT;
+        ShowcaseView.insertShowcaseViewWithType(ShowcaseView.ITEM_ACTION_ITEM, R.id.emergency_call, this, "Emergency information", "In a crisis situation, hit this button to find out about people who can help, and dial straight through to them with one tap.", co);
 
         return true;
     }

@@ -15,6 +15,7 @@ import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.SteelAmbition.Wayfarer.data.Survey;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.espiandev.showcaseview.ShowcaseView;
 import org.apache.http.HttpResponse;
 
 import java.util.ArrayList;
@@ -33,6 +34,11 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.createsubject);
+        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+
+        ShowcaseView.insertShowcaseViewWithType(ShowcaseView.ITEM_TITLE, android.R.id.home , this, "Add the person you care about", "This is where you tell us who you are going to be helping through a tough time. Either type their name in, or if someone else has already started using Wayfarer with your friend, ask them for their 5 digit code and type it in.", co);
+
+
 
         Button createSubjectButton = (Button) findViewById(R.id.btnCreateSubject);
         final EditText name = (EditText) findViewById(R.id.createsubject_name);

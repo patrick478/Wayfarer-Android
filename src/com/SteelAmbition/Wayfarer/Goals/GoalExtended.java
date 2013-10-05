@@ -35,8 +35,6 @@ public class GoalExtended extends SherlockFragmentActivity {
 
         setContentView(R.layout.goal_view);
 
-        ShowcaseView.insertShowcaseView(R.id.complete_task, this, "Goals", "This is where you find your goals, things you can do to help your friend", new ShowcaseView.ConfigOptions());
-
 
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
@@ -66,6 +64,12 @@ public class GoalExtended extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.extended_goal_menu, menu);
+
+        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+        co.shotType = ShowcaseView.TYPE_ONE_SHOT;
+        ShowcaseView.insertShowcaseView(ShowcaseView.ITEM_ACTION_ITEM, R.id.complete_task, this, "Complete goal", "When you have completed a goal, come to this screen and click this button to tell Wayfarer that you've done it.", co);
+
+
         return true;
     }
 

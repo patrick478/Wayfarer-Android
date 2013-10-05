@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dashboard"
-            android:id="@+id/textView" android:layout_gravity="center"/>
-</LinearLayout>
+            android:text="Hello, name goes here!"
+            android:id="@+id/nameHello" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+            android:layout_marginLeft="6dp" android:layout_marginTop="6dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Goals"
+            android:id="@+id/textView" android:layout_alignParentLeft="true" android:layout_below="@+id/nameHello"
+            android:layout_marginTop="10dp" android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/10"
+            android:id="@+id/goalsCount" android:layout_alignParentRight="true" android:layout_alignTop="@+id/textView"
+            android:layout_marginRight="10dp"/>
+</RelativeLayout>
