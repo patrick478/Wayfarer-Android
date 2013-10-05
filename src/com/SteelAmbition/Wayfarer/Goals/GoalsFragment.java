@@ -12,6 +12,7 @@ import com.SteelAmbition.Wayfarer.R;
 import com.SteelAmbition.Wayfarer.Utils;
 import com.SteelAmbition.Wayfarer.data.Goal;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.github.espiandev.showcaseview.ShowcaseView;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class GoalsFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
 
         goalList = (ListView)getView().findViewById(R.id.goalsList);
         if(MainActivity.stateManager!=null)

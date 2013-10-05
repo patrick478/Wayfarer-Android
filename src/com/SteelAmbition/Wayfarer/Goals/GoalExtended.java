@@ -11,6 +11,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.espiandev.showcaseview.ShowcaseView;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,6 +34,9 @@ public class GoalExtended extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.goal_view);
+
+        ShowcaseView.insertShowcaseView(R.id.complete_task, this, "Goals", "This is where you find your goals, things you can do to help your friend", new ShowcaseView.ConfigOptions());
+
 
         Intent intent = getIntent();
         title = intent.getStringExtra("title");

@@ -4,6 +4,7 @@
     <style name="WayfarerTheme" parent="@style/Theme.Sherlock.Light">
         <item name="android:actionBarStyle">@style/PurpleActionBar</item>
         <item name="actionBarStyle">@style/PurpleActionBar</item>
+        <item name="showcaseViewStyle">@style/ShowcaseTheme</item>
         <!-- other activity and action bar styles here -->
     </style>
 
@@ -19,6 +20,10 @@
 
     <style name="MyTheme.ActionBar.TitleTextStyle" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">#FFFFFF</item>
+
+    </style>
+
+    <style name="ShowcaseTheme" parent="ShowcaseView.Light">
 
     </style>
 </resources>

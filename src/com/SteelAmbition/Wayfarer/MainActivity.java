@@ -20,6 +20,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
+import com.github.espiandev.showcaseview.ShowcaseView;
 
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -35,7 +36,10 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+       // Crashlytics.start(this);
+
+
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 
@@ -84,6 +88,8 @@ public class MainActivity extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.main_activity_menu, menu);
+        ShowcaseView.insertShowcaseViewWithType(ShowcaseView.ITEM_ACTION_ITEM, R.id.emergency_call, this, "Emergency information", "In a crisis situation, hit this button to find out about people who can help, and dial straight through to them with one tap.", new ShowcaseView.ConfigOptions());
+
         return true;
     }
 
