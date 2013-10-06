@@ -37,9 +37,12 @@
                   android:parentActivityName=".MainActivity"/>
 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="03efe68dbbfa65529bfe123bb62c286916870fc4"/>
+
+        <uses-library android:name="android.test.runner" />
     </application>
 
-
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+                     android:targetPackage="com.SteelAmbition.Wayfarer" android:label="App Tests" />
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>

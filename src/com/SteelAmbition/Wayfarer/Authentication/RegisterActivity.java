@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.SteelAmbition.Wayfarer.MainActivity;
+import com.SteelAmbition.Wayfarer.Network.AlreadyExistsException;
+import com.SteelAmbition.Wayfarer.Network.NetworkFailureException;
+import com.SteelAmbition.Wayfarer.Network.ServerAccess;
+import com.SteelAmbition.Wayfarer.Network.User;
 import com.SteelAmbition.Wayfarer.R;
 import com.SteelAmbition.Wayfarer.crouton.Crouton;
 import com.SteelAmbition.Wayfarer.crouton.Style;
@@ -59,7 +63,7 @@ public class RegisterActivity extends SherlockFragmentActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                new CreateUser(username.getText().toString(), password.getText().toString(), firstname.getText().toString(), surname.getText().toString(), activity).execute();
+                new CreateUser(username.getText().toString(), password.getText().toString(), firstname.getText().toString(), activity).execute();
             }
 
         });
@@ -76,128 +80,66 @@ public class RegisterActivity extends SherlockFragmentActivity {
     }
 
 
-    private class CreateUser extends AsyncTask<String, Void, HttpResponse>{
+    private class CreateUser extends AsyncTask<String, Void, User>{
 
-        private final String firstname;
-        private final String lastname;
-        HttpResponse response;
-		private Activity activity;
-		private final String username;
+        private final String email;
+        private final String name;
 		private final String password;
+        private Activity activity;
 
-        public CreateUser(String username, String password, String firstname, String lastname, Activity activity){
+        public CreateUser(String email, String password, String name, Activity activity){
         	this.activity = activity;
-        	this.username = username;
+        	this.email = email;
         	this.password = password;
-            this.firstname = firstname;
-            this.lastname = lastname;
+            this.name = name;
         }
-
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             activity.setProgressBarIndeterminateVisibility(true);
-
         }
 
         @Override
-        protected HttpResponse doInBackground(String... params) {
-            // Create a newtopic HttpClient and Post Header
-            HttpClient httpclient = new DefaultHttpClient();
+        protected User doInBackground(String... params) {
 
-
-            HttpPut httppost = new HttpPut("http://wayfarer-server.herokuapp.com/users");
-
-
-
+            // Create the user on the server.
+            User user = null;
             try {
-                // Add data
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
-                nameValuePairs.add(new BasicNameValuePair("email", username));
-                nameValuePairs.add(new BasicNameValuePair("password", password));
-                nameValuePairs.add(new BasicNameValuePair("name[first]", firstname));
-                nameValuePairs.add(new BasicNameValuePair("name[last]", lastname));
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                // Execute HTTP Post Request
-                response = httpclient.execute(httppost);
-
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
+                user = ServerAccess.createUser(email, name, password);
+            } catch (AlreadyExistsException e) {
+                Crouton.showText(activity, "A user already exists with that email address.", Style.ALERT);
+            } catch (NetworkFailureException e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+                Crouton.showText(activity, "Creation failed, try again", Style.ALERT);
             }
-            return response;
+            // User will be null if anything failed.
+            return user;
         }
 
         @Override
-        protected void onPostExecute(HttpResponse result) {
-             if(result.getStatusLine().getStatusCode()!= HttpStatus.SC_CREATED){
-                   Crouton.showText(activity, "Creation failed, try again", Style.ALERT);
-             }
+        protected void onPostExecute(User user) {
+            if (user != null){
 
-             else{
-                 HttpEntity entity = response.getEntity();
+                // set shared preferences (legacy code?)
+                SharedPreferences sharedPreferences = getSharedPreferences("user", 0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("id", user.getId());
+                editor.putString("email", user.getEmail());
+                editor.putString("name", user.getName());
+                editor.putBoolean("logged_in", true);
+                editor.commit();
 
-                 String response = null;
-                 if(entity!=null){
-                     try {
-                         InputStream instream = entity.getContent();
-                         BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
-                         StringBuilder sb = new StringBuilder();
-                         String line = null;
-                         try {
-                             while ((line = reader.readLine()) != null) {
-                                 sb.append(line + "\n");
-                             }
-                         }
-                         catch (IOException e) {
-                             e.printStackTrace();
-                         }
-                         finally {
-                             try {
-                                 response = sb.toString();
-                                 instream.close();
-                             } catch (IOException e) {
-                                 e.printStackTrace();
-                             }
-                         }
-                     }
-                     catch (IOException e) {
-                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                     }
+                System.out.println("userid="+user.getId());
 
-                 }
+                MainActivity.userID =  user.getId();
 
-                 try {
-                     JSONObject json = new JSONObject(response);
-
-                     JSONObject name= json.getJSONObject("name");
-
-                     SharedPreferences sharedPreferences = getSharedPreferences("user", 0);
-                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                     editor.putString("email", json.getString("email"));
-
-                     editor.putString("id", json.getString("id"));
-                     MainActivity.userID =  json.getString("id");
-
-                     editor.putString("firstname", name.getString("first"));
-                     editor.putString("lastname", name.getString("last"));
-
-                     editor.putBoolean("logged_in", true);
-                     editor.commit();
-                 } catch (JSONException e) {
-                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                 }
-                 activity.setProgressBarIndeterminateVisibility(false);
-
-                 activity.finish();
-
-             }
-
-
-
+                // original code had these two lines only performing on success
+                // and I don't want to presume to change that.
+                activity.setProgressBarIndeterminateVisibility(false);
+                activity.finish();
+            }
         }
     }
 }
