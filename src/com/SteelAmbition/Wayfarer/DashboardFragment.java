@@ -34,9 +34,6 @@ public class DashboardFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        goalProgress = (ProgressBar)getView().findViewById(R.id.goalsProgress);
-
         goalsCount =  (TextView)getView().findViewById(R.id.goalsCount);
 
         if(MainActivity.stateManager!=null)
