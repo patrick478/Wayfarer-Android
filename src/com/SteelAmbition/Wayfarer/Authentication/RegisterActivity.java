@@ -103,6 +103,20 @@ public class RegisterActivity extends SherlockFragmentActivity {
         @Override
         protected User doInBackground(String... params) {
 
+<<<<<<< HEAD
+            // Create a new user on the server.
+            // This is temporary and mainly to demonstrate how it's done.
+            User user = null;
+            try {
+                user = new User(email, name, password);
+            } catch (AlreadyExistsException e) {
+                // a user already exists with this email address
+                // handle it
+            } catch (NetworkFailureException e) {
+                // there was some sort of issue with the the connection or the server
+                // handle it
+            }
+=======
             // Create the user on the server.
             User user = null;
             try {
@@ -115,6 +129,7 @@ public class RegisterActivity extends SherlockFragmentActivity {
                 Crouton.showText(activity, "Creation failed, try again", Style.ALERT);
             }
             // User will be null if anything failed.
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
             return user;
         }
 
@@ -122,7 +137,20 @@ public class RegisterActivity extends SherlockFragmentActivity {
         protected void onPostExecute(User user) {
             if (user != null){
 
+<<<<<<< HEAD
+                /*
+                    At this point, user can be operated on and updated, deleted etc.
+                    A reference to it should be stored somewhere central so that all activies
+                    can access it.
+
+                    The created user can also be retrieved later on using the User(email,pass)
+                    constructor.
+                 */
+
+                // legacy code
+=======
                 // set shared preferences (legacy code?)
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
                 SharedPreferences sharedPreferences = getSharedPreferences("user", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("id", user.getId());
@@ -135,8 +163,11 @@ public class RegisterActivity extends SherlockFragmentActivity {
 
                 MainActivity.userID =  user.getId();
 
+<<<<<<< HEAD
+=======
                 // original code had these two lines only performing on success
                 // and I don't want to presume to change that.
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
                 activity.setProgressBarIndeterminateVisibility(false);
                 activity.finish();
             }

@@ -30,6 +30,8 @@ public class ServerAccess {
     public static final String SERVER_URL = "http://wayfarer-server.herokuapp.com";
     //public static final String SERVER_URL = "http://10.0.2.2:5000"; //localhost
 
+<<<<<<< HEAD
+=======
     // The user currently logged in
     private static User currentUser;
     private static Header currentAuthHeader;
@@ -42,6 +44,7 @@ public class ServerAccess {
         return currentUser;
     }
 
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
     /**
      * Internal helper method to reduce repeated code.
      * Creates a connection to the server with optional body and authentication header
@@ -57,7 +60,11 @@ public class ServerAccess {
      *
      * @return  The response, or null if there was a problem.
      */
+<<<<<<< HEAD
+    public static HttpResponse doRequest(String verb, String uri, int codeExpected, JSONObject body,
+=======
     private static HttpResponse doRequest(String verb, String uri, int codeExpected, JSONObject body,
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
                                           Header authHeader)
             throws AuthenticationException, AlreadyExistsException, NetworkFailureException {
 
@@ -116,6 +123,8 @@ public class ServerAccess {
             throw new NetworkFailureException(e);
         }
     }
+<<<<<<< HEAD
+=======
 
     /**
      * Logs the user with the given email and password in. The combination must
@@ -156,6 +165,7 @@ public class ServerAccess {
         return user;
     }
 
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
     /**
      * Attempts to connect to the server, returning True if successful.
      * This is a good way to test if (a) the server is up and (b) the app can connect
@@ -170,6 +180,8 @@ public class ServerAccess {
         }
     }
 
+<<<<<<< HEAD
+=======
     /**
      * Creates a user with the given email (must be unique), name and password.  The new
      * user will automatically be "logged in" and stored as the current user, so that
@@ -256,4 +268,5 @@ public class ServerAccess {
     }
 
 
+>>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
 }
