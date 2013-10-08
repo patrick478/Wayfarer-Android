@@ -1,14 +1,10 @@
 package com.SteelAmbition.Wayfarer.Network;
 
-<<<<<<< HEAD
 import android.util.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.message.BasicHeader;
-=======
-import org.apache.http.HttpEntity;
->>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +12,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 /**
-<<<<<<< HEAD
  * Represents a User of the application, as stored on the server.
  */
 public class User {
@@ -29,7 +24,7 @@ public class User {
     private String subjectId;
 
     // Used to keep track of what has changed since the user's information was retrieved.
-    private String storedId, storedEmail, storedPassword, storedName, storedSubjectId;
+    private String storedEmail, storedPassword, storedName, storedSubjectId;
 
     // The basic authentication header for this user.
     private BasicHeader authHeader;
@@ -47,7 +42,7 @@ public class User {
             throws AlreadyExistsException, NetworkFailureException {
 
         // Validate input
-        if (email == null || !Utility.isEmailValid(email))
+        if (email == null || !ServerAccess.isEmailValid(email))
             throw new IllegalArgumentException("Provided email is not valid");
         if (name == null || name.isEmpty())
             throw new IllegalArgumentException("Must provide a name");
@@ -89,7 +84,7 @@ public class User {
             throws AuthenticationException, NetworkFailureException {
 
         // Validate input
-        if (email == null || !Utility.isEmailValid(email))
+        if (email == null || !ServerAccess.isEmailValid(email))
             throw new IllegalArgumentException("Provided email is not valid");
         if (password == null || password.isEmpty())
             throw new IllegalArgumentException("Must provide a password");
@@ -158,100 +153,53 @@ public class User {
     }
 
     /**
+     * Retrieves the Subject that this user is watching from the server, or null if this user
+     * is not watching a subject.
+     * @return  The subject or null if they don't exist.
+     * @throws AuthenticationException
+     * @throws NetworkFailureException
+     */
+    public Subject getSubject() throws AuthenticationException, NetworkFailureException  {
+        if (subjectId == null)
+            return null;
+        try {
+            return new Subject(this);
+        } catch (DoesNotExistException e) {
+            return null; //won't happen but handle anyway
+        }
+    }
+
+    /**
      * Updates this user from the (JSON) body of an HTTP response.
      */
     private void updateFromEntity(HttpEntity entity) {
         try {
             JSONObject json = new JSONObject(EntityUtils.toString(entity));
             // Update fields
-=======
- * Represents a User of the application, as stored on the server... minus their password.
- */
-public class User {
-
-    private String id;
-    private String email;
-    private String name;
-    private String subjectId;
-
-    /**
-     * Creates a blank user.
-     */
-    public User() {
-    }
-
-    /**
-     * Creates a user with the specified information.
-     */
-    public User(String id, String email, String name, String subjectId) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.subjectId = subjectId;
-    }
-
-    /**
-     * Creates a user from the (JSON) body of an HTTP response.
-     */
-    public User(HttpEntity entity) {
-        try {
-            JSONObject json = new JSONObject(EntityUtils.toString(entity));
->>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
             id = json.getString("id");
             email = json.getString("email");
             name = json.getString("name");
             subjectId = (json.has("subjectId")) ? json.getString("subjectId") : null;
-<<<<<<< HEAD
+
             // Update stored representation of user
-            storedId = this.id;
             storedEmail = this.email;
             storedName = this.name;
             storedSubjectId = this.subjectId;
-=======
->>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
         } catch (JSONException|IOException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-<<<<<<< HEAD
     /* Getters and setters.  To update this user, set the fields you want to change
      * and then call update() to commit the changes to the server. */
     public String getId()                       { return id; }
     public String getName()                     { return name; }
-    public void setName(String name)            { this.name = name; }
     public String getSubjectId()                { return subjectId; }
-    public void setSubjectId(String subjectId)  { this.subjectId = subjectId; }
     public String getEmail()                    { return email; }
-    public void setEmail(String email)          { this.email = email; }
     public String getPassword()                 { return password; }
+    public BasicHeader getAuthHeader()          { return authHeader; }
+    public void setName(String name)            { this.name = name; }
+    public void setSubjectId(String subjectId)  { this.subjectId = subjectId; }
+    public void setEmail(String email)          { this.email = email; }
     public void setPassword(String password)    { this.password = password; }
-=======
-    /* Getters and setters */
-
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getSubjectId() {
-        return subjectId;
-    }
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
->>>>>>> 15623f46261c09a94a53be0db83cd06b6330cb0a
 }

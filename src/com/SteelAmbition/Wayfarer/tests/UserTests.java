@@ -6,6 +6,7 @@ import android.test.AndroidTestCase;
 
 /**
  * A suite of tests for user networking.
+ * These are NOT executed in order.
  */
 public class UserTests extends AndroidTestCase {
 
@@ -17,15 +18,14 @@ public class UserTests extends AndroidTestCase {
     }
 
     /**
-     * Tests creating a user. If the user already exists, thats ok.
+     * Tests creating a user. If the user already exists, thats ok,
+     * we can't guarantee it doesn't
      */
     public void testCreateUserSuccess() throws Throwable {
         try {
             new User("created@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
             // not ideal for the test, but acceptable
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
     }
 
@@ -35,11 +35,10 @@ public class UserTests extends AndroidTestCase {
     public void testCreateUserAlreadyExists() throws Throwable {
         try {
             new User("created@test.com", "name", "password");
+            new User("created@test.com", "name", "password");
             Assert.fail(); //bad if it got to here
         } catch (AlreadyExistsException e) {
             // good
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
     }
 
@@ -52,17 +51,9 @@ public class UserTests extends AndroidTestCase {
             new User("gettest@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
             // don't care
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
         // log in as them
-        try {
-            new User("gettest@test.com", "password");
-        } catch (AuthenticationException e) {
-            Assert.fail();
-        } catch (NetworkFailureException e) {
-            Assert.fail();
-        }
+        new User("gettest@test.com", "password");
     }
 
     /**
@@ -74,8 +65,6 @@ public class UserTests extends AndroidTestCase {
             Assert.fail(); //bad if it got to here
         } catch (AuthenticationException e) {
             // good
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
     }
 
@@ -88,16 +77,12 @@ public class UserTests extends AndroidTestCase {
             new User("badpass@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
             // don't care
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
         try {
             new User("badpass@test.com", "modern major general");
             Assert.fail(); //bad if it got to here
         } catch (AuthenticationException e) {
             // good
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
     }
 
@@ -110,18 +95,10 @@ public class UserTests extends AndroidTestCase {
             new User("updated@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
             // don't care
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
         // update them
-        try {
-            User user = new User("updated@test.com", "password");
-            user.update();
-        } catch (AuthenticationException e) {
-            Assert.fail();
-        } catch (NetworkFailureException e) {
-            Assert.fail();
-        }
+        User user = new User("updated@test.com", "password");
+        user.update();
     }
 
     /**
@@ -134,28 +111,14 @@ public class UserTests extends AndroidTestCase {
             new User("updated2@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
             // don't care
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
         // Get and update user
-        try {
-            User user = new User("updated2@test.com", "password");
-            user.setName("Bob");
-            user.update();
-        } catch (AuthenticationException e) {
-            Assert.fail();
-        } catch (NetworkFailureException e) {
-            Assert.fail();
-        }
+        User user = new User("updated2@test.com", "password");
+        user.setName("Bob");
+        user.update();
         // Get again and test
-        try {
-            User user = new User("updated2@test.com", "password");
-            Assert.assertEquals(user.getName(), "Bob");
-        } catch (AuthenticationException e) {
-            Assert.fail();
-        } catch (NetworkFailureException e) {
-            Assert.fail();
-        }
+        user = new User("updated2@test.com", "password");
+        Assert.assertEquals(user.getName(), "Bob");
     }
 
     /**
@@ -168,33 +131,16 @@ public class UserTests extends AndroidTestCase {
             new User("delete@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
             // don't care
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
         // Get and delete user
-        User user = null;
-        try {
-            user = new User("delete@test.com", "password");
-        } catch (AuthenticationException e) {
-            Assert.fail();
-        } catch (NetworkFailureException e) {
-            Assert.fail();
-        }
-        try {
-            user.delete();
-        } catch (AuthenticationException e) {
-            Assert.fail();
-        } catch (NetworkFailureException e) {
-            Assert.fail();
-        }
+        User user = new User("delete@test.com", "password");
+        user.delete();
         // Try log in to deleted user
         try {
             user = new User("delete@test.com", "password");
             Assert.fail();
         } catch (AuthenticationException e) {
             // good
-        } catch (NetworkFailureException e) {
-            Assert.fail();
         }
     }
 
