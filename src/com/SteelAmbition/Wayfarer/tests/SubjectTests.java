@@ -157,9 +157,9 @@ public class SubjectTests extends AndroidTestCase {
         }
         User user2 = null;
         try {
-            user2 = new User("subupdate3a@test.com", "name", "password");
+            user2 = new User("subupdate3b@test.com", "name", "password");
         } catch (AlreadyExistsException e) {
-            user2 = new User("subupdate3a@test.com", "password");
+            user2 = new User("subupdate3b@test.com", "password");
         }
         // Create a subject for user1
         Subject subject1 = new Subject(user1,"Test");
@@ -189,5 +189,57 @@ public class SubjectTests extends AndroidTestCase {
         } catch (OldDataException e) {
             // good
         }
+    }
+
+    /**
+     * Update a subject with a new state, but it having been changed already,
+     * then refresh to the latest data.
+     */
+    public void testUpdateStateThenRefresh() throws Throwable {
+        // As above test, set up 2 users to point to 1 subject and get a
+        // second reference to that subject.
+        User user1 = null;
+        try {
+            user1 = new User("subupdate4a@test.com", "name", "password");
+        } catch (AlreadyExistsException e) {
+            user1 = new User("subupdate4a@test.com", "password");
+        }
+        User user2 = null;
+        try {
+            user2 = new User("subupdate4b@test.com", "name", "password");
+        } catch (AlreadyExistsException e) {
+            user2 = new User("subupdate4b@test.com", "password");
+        }
+        Subject subject1 = new Subject(user1,"Test");
+        user2.setSubjectId(subject1.getId());
+        user2.update();
+        Subject subject2 = new Subject(user2);
+
+        // User 1 updates subject's state successfully
+        JSONObject state = new JSONObject();
+        JSONObject stateContents = new JSONObject();
+        stateContents.put("test1","boop");
+        state.put("state", stateContents);
+        subject1.setState(state);
+        subject1.update();
+
+        // User 2 tries to update subject's state but conflicts with user 1's.
+        state = new JSONObject();
+        stateContents = new JSONObject();
+        stateContents.put("test2","floooorp!");
+        state.put("state", stateContents);
+        subject2.setState(state);
+        try {
+            subject2.update();
+            Assert.fail(); //bad if got up to here
+        } catch (OldDataException e) {
+            // good
+        }
+
+        // User 2 refreshes their subject reference, check to see it's the same
+        // as what user 1's subject reference uses.
+        subject2.refresh();
+        Assert.assertEquals(subject1.getState().toString(),
+                subject2.getState().toString());
     }
 }

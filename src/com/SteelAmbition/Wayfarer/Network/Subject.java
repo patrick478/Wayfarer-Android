@@ -101,7 +101,7 @@ public class Subject {
      * @throws AuthenticationException
      * @throws NetworkFailureException
      */
-    public void update() throws OldDataException, AuthenticationException, NetworkFailureException {
+    public void update() throws OldDataException, NetworkFailureException {
 
         // Nothing to update: just refresh the subject's information.
         if (state == null || state.equals(storedState)) {
@@ -109,7 +109,8 @@ public class Subject {
                 HttpResponse response = ServerAccess.doRequest("GET", "subjects", HttpStatus.SC_OK,
                         null, user.getAuthHeader());
                 updateFromEntity(response.getEntity());
-            } catch (AlreadyExistsException e) { /* won't be thrown */ }
+            } catch (AlreadyExistsException e) { /* won't be thrown */
+            } catch (AuthenticationException e) { throw new RuntimeException(e); }
 
         // State has changed and we need to update it.
         } else {
@@ -125,6 +126,7 @@ public class Subject {
                     throw new OldDataException("State updated on server since last retrieved");
                 }
             } catch (AlreadyExistsException e) { /* won't be thrown */
+            } catch (AuthenticationException e) { throw new RuntimeException(e);
             } catch (JSONException|IOException e) {
                 throw new IllegalArgumentException(e);
             }
@@ -140,8 +142,25 @@ public class Subject {
                 HttpResponse response = ServerAccess.doRequest("POST", "subjects", HttpStatus.SC_OK,
                         json, user.getAuthHeader());
                 updateFromEntity(response.getEntity());
-            } catch (AlreadyExistsException e) { /* won't be thrown */ }
+            } catch (AlreadyExistsException e) { /* won't be thrown */
+            } catch (AuthenticationException e) { throw new RuntimeException(e); }
         }
+    }
+
+    /**
+     * Refreshes and resets all local subject data to the latest data on the server.
+     * @throws NetworkFailureException
+     */
+    public void refresh() throws NetworkFailureException {
+        try {
+            // Execute request, expecting 200 OK
+            HttpResponse response = ServerAccess.doRequest("GET", "subjects", HttpStatus.SC_OK,
+                    null, user.getAuthHeader());
+
+            // Flesh out fields from the response
+            updateFromEntity(response.getEntity());
+        } catch (AlreadyExistsException e) { /* won't be thrown */
+        } catch (AuthenticationException e) { throw new RuntimeException(e); }
     }
 
     /**

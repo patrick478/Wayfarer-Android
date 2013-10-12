@@ -110,7 +110,7 @@ public class User {
      * @throws AuthenticationException
      * @throws NetworkFailureException
      */
-    public void update() throws AuthenticationException, NetworkFailureException {
+    public void update() throws NetworkFailureException {
 
         // Create body
         JSONObject json = new JSONObject();
@@ -138,7 +138,8 @@ public class User {
             // Reconstruct authentication header
             authHeader = new BasicHeader("Authorization",
                     "Basic "+ Base64.encodeToString((this.email+":"+password).getBytes(), Base64.NO_WRAP));
-        } catch (AlreadyExistsException e) { /* won't be thrown */ }
+        } catch (AlreadyExistsException e) { /* won't be thrown */
+        } catch (AuthenticationException e) { throw new RuntimeException(e); }
     }
 
     /**
@@ -146,10 +147,11 @@ public class User {
      * @throws AuthenticationException
      * @throws NetworkFailureException
      */
-    public void delete() throws AuthenticationException, NetworkFailureException {
+    public void delete() throws NetworkFailureException {
         try {
             HttpResponse response = ServerAccess.doRequest("DELETE", "users", HttpStatus.SC_OK, null, authHeader);
-        } catch (AlreadyExistsException e) { /* won't be thrown */ }
+        } catch (AlreadyExistsException e) { /* won't be thrown */
+        } catch (AuthenticationException e) { throw new RuntimeException(e); }
     }
 
     /**
@@ -165,7 +167,7 @@ public class User {
         try {
             return new Subject(this);
         } catch (DoesNotExistException e) {
-            return null; //won't happen but handle anyway
+            throw new RuntimeException(e);
         }
     }
 
