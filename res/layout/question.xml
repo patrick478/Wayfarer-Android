@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:padding="10dp">
+
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:textColor="#372c24"
+              android:text="Question" android:id="@+id/question" android:layout_gravity="left|center_vertical"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:id="@+id/radioGroup">
+    </LinearLayout>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:id="@+id/btnContinue" android:layout_gravity="center"/>
+</LinearLayout>

@@ -38,11 +38,8 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
 
         ShowcaseView.insertShowcaseViewWithType(ShowcaseView.ITEM_TITLE, android.R.id.home , this, "Add the person you care about", "This is where you tell us who you are going to be helping through a tough time. Either type their name in, or if someone else has already started using Wayfarer with your friend, ask them for their 5 digit code and type it in.", co);
 
-
-
         Button createSubjectButton = (Button) findViewById(R.id.btnCreateSubject);
         final EditText name = (EditText) findViewById(R.id.createsubject_name);
-       ;
 
         final Activity activity = this;
 
@@ -88,7 +85,7 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
 
         @Override
         protected Database doInBackground(String... params) {
-           Database db =   StateManager.newUserDatabase(name);
+           Database db = StateManager.newUserDatabase(name);
 
            Survey s = new Survey(new ArrayList<Question>());
 
@@ -103,7 +100,6 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
 
         @Override
         protected void onPostExecute(Database db) {
-
 
              SharedPreferences sharedPreferences = getSharedPreferences("subject", 0);
              SharedPreferences.Editor editor = sharedPreferences.edit();

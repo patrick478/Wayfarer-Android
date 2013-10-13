@@ -55,15 +55,14 @@ public class RegisterActivity extends SherlockFragmentActivity {
         Button loginButton = (Button) findViewById(R.id.btnRegister);
         final EditText username = (EditText) findViewById(R.id.register_email);
         final EditText password = (EditText) findViewById(R.id.register_password);
-        final EditText firstname = (EditText) findViewById(R.id.register_firstName);
-        final EditText surname = (EditText) findViewById(R.id.register_surname);
+        final EditText name = (EditText) findViewById(R.id.register_name);
 
         final Activity activity = this;
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                new CreateUser(username.getText().toString(), password.getText().toString(), firstname.getText().toString(), activity).execute();
+                new CreateUser(username.getText().toString(), password.getText().toString(), name.getText().toString(), activity).execute();
             }
 
         });

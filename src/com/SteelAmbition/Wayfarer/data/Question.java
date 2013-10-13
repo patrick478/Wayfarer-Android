@@ -30,7 +30,7 @@ public class Question {
 	}
 	
 	public void answer(int ans){
-		if(ans>=answers.size()) throw new IndexOutOfBoundsException();
+		if(ans>=answers.size() || ans < 0) throw new IndexOutOfBoundsException();
 		selectedAnswer = ans;
 	}
 	
