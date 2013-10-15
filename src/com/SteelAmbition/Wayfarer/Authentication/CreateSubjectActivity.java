@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.SteelAmbition.Wayfarer.MainActivity;
+import com.SteelAmbition.Wayfarer.Questions.QuestionActivity;
 import com.SteelAmbition.Wayfarer.R;
 import com.SteelAmbition.Wayfarer.data.Database;
 import com.SteelAmbition.Wayfarer.data.Question;
@@ -19,6 +20,7 @@ import com.github.espiandev.showcaseview.ShowcaseView;
 import org.apache.http.HttpResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -85,15 +87,32 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
 
         @Override
         protected Database doInBackground(String... params) {
-           Database db = StateManager.newUserDatabase(name);
+            Database db = StateManager.newUserDatabase(name);
 
-           Survey s = new Survey(new ArrayList<Question>());
+            Survey s = db.getInitialSurvey(); //todo FIX
 
-           MainActivity.stateManager = new StateManager(db, s);
+            //           Survey
+            List<Question> qlist = new ArrayList<Question>();
+            String ques = "This is a question <test>";
+            List<String> alist = new ArrayList<String>();
+            alist.add("Answer 1");
+            alist.add("Answer 2");
+            alist.add("Answer 3");
+            alist.add("Answer 4");
+            Question question = new Question(ques, alist);
 
-           StateManager.postState(MainActivity.stateManager, db.getId());
+            qlist.add(question);
+            s = new Survey(qlist);
 
-           return db;
+            for (Question q : s.getQuestions()) {
+                QuestionActivity.setQuestion(q);
+            }
+
+            MainActivity.stateManager = new StateManager(db, s);
+
+            StateManager.postState(MainActivity.stateManager, db.getId());
+
+            return db;
 
 
         }
@@ -101,22 +120,18 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         @Override
         protected void onPostExecute(Database db) {
 
-             SharedPreferences sharedPreferences = getSharedPreferences("subject", 0);
-             SharedPreferences.Editor editor = sharedPreferences.edit();
-             editor.putString("name", name);
-             editor.putString("id", db.getId());
-             MainActivity.subjectID =  db.getId();
+            SharedPreferences sharedPreferences = getSharedPreferences("subject", 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("name", name);
+            editor.putString("id", db.getId());
+            MainActivity.subjectID =  db.getId();
 
-             editor.commit();
+            editor.commit();
 
             activity.setProgressBarIndeterminateVisibility(false);
 
             activity.finish();
 
         }
-
-
-
-
     }
 }

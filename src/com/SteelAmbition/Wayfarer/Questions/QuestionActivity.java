@@ -21,6 +21,11 @@ public class QuestionActivity extends SherlockActivity{
 
     public static Question question = null;
     LinearLayout radioGroupLayout;
+    RadioGroup radioGroup;
+
+    public static void setQuestion(Question q) {
+        question = q;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,14 +37,22 @@ public class QuestionActivity extends SherlockActivity{
         if (question != null)
             createRadioButton(question);
 
-        Button createSubjectButton = (Button) findViewById(R.id.btnContinue);
+        Button continueButton = (Button) findViewById(R.id.btnContinue);
 
         final Activity activity = this;
 
-        createSubjectButton.setOnClickListener(new View.OnClickListener() {
+        continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
+                if(radioGroup.getCheckedRadioButtonId()!=-1) {
+                    int id= radioGroup.getCheckedRadioButtonId();
+                    View radioButton = radioGroup.findViewById(id);
+                    int radioId = radioGroup.indexOfChild(radioButton);
+                    RadioButton btn = (RadioButton) radioGroup.getChildAt(radioId);
+                    String selection = (String) btn.getText();
+                    System.out.println(selection);
+                }
+                activity.finish();
 //                new CreateSubject(name.getText().toString(), activity).execute();
             }
 
@@ -49,7 +62,7 @@ public class QuestionActivity extends SherlockActivity{
     private void createRadioButton(Question ques) {
         List<String> answers = ques.getAnswers();
         final RadioButton[] radioButton = new RadioButton[answers.size()];
-        RadioGroup radioGroup = new RadioGroup(this);
+        radioGroup = new RadioGroup(this);
         radioGroup.setOrientation(RadioGroup.VERTICAL);
         for(int i = 0; i < answers.size(); ++i) {
             radioButton[i] = new RadioButton(this);
@@ -57,7 +70,7 @@ public class QuestionActivity extends SherlockActivity{
             buttonView.setText(answers.get(i));
             radioGroup.addView(radioButton[i]);
             radioGroup.addView(buttonView);
-            radioButton[i].setText("Test" + i);
+            radioButton[i].setText(i);
         }
         radioGroupLayout.addView(radioGroup);
     }

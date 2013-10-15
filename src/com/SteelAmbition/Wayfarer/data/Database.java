@@ -50,7 +50,12 @@ public class Database {
     public void setID(String id){
         this.id = id;
     }
-	
+
+    public Survey getInitialSurvey() {
+        //method stub
+        return null;
+    }
+
 	public List<Danger> getDangers() {
 		return dangers;
 	}
