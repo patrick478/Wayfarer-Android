@@ -1,6 +1,6 @@
 package com.SteelAmbition.Wayfarer.data;
 
-import com.SteelAmbition.Wayfarer.loader.Loader;
+import com.SteelAmbition.Wayfarer.loader.DummyLoader;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
@@ -34,17 +34,10 @@ public class StateManager implements StateAccess{
 	private Survey survey;
 	private Date lastSurvey;
 	
-	public StateManager(Loader l){
-		dangers = l.loadDangers();
-		Collections.sort(dangers);
-		preventionNodes = l.loadPreventionNodes();
-		recoveryNodes = l.loadRecoveryNodes();
-		survey = l.loadSurvey();
-		informCards = l.loadInformCards();
-		lastSurvey = l.getLastSurvey();
-	}
+	private String currentUser;
 	
-	public StateManager(Database db, Survey s){
+	public StateManager(Database db, Survey s,String currentUser){
+		this.currentUser = currentUser;
 		for(Goal g:db.getPreventativeGoals()){
 			preventionNodes.add(new PreventionNode(Arrays.asList(new Goal[]{g})));
 		}
@@ -63,6 +56,18 @@ public class StateManager implements StateAccess{
 		s.apply(this);
 	}
 	
+	public StateManager(DummyLoader l) {
+		preventionNodes = l.loadPreventionNodes();
+		recoveryNodes = l.loadRecoveryNodes();
+		survey = l.loadSurvey();
+		dangers = l.loadDangers();
+		informCards = l.loadInformCards();
+	}
+	
+	public String getCurrentUser(){
+		return currentUser;
+	}
+
 	public void goPreventative(){
 		state = "Preventative";
 		preventionNodeIndex = 0;
@@ -74,11 +79,21 @@ public class StateManager implements StateAccess{
 	
 	public List<InformCard> getMostRelevantInfo(int num){
 		survey.sortInfo(informCards);
-		return informCards;
+		List<InformCard> ans = new ArrayList<InformCard>(getInformCards());
+		while(num<ans.size()){
+			ans.remove(num);
+		}
+		return ans;
 	}
 	
 	public List<InformCard> getInformCards(){
-		return informCards;
+		List<InformCard> ans = new ArrayList<InformCard>(informCards);
+		List<InformCard> dismissals = new ArrayList<InformCard>();
+		for(InformCard i:informCards){
+			if(i.isDismissedFor(currentUser)) dismissals.add(i);
+		}
+		ans.removeAll(dismissals);
+		return ans;
 	}
 	
 	public void printSelf(){
@@ -169,7 +184,7 @@ public class StateManager implements StateAccess{
 		//if(new Date().getTime() - lastSurvey.getTime() < 1000*60*60*24)	return null;
 		List<Question> qs = new ArrayList<Question>();
 		for(Goal g:preventionNodes.get(preventionNodeIndex).getGoals()){
-			qs.add(new Question(g.getRelatedQuestion(),Arrays.asList(new String[]{"Yes", "No"})));
+			qs.add(g.getRelatedQuestion());
 		}
 		Collections.sort(dangers);
 		for(int i=0;i<3 && i<dangers.size();i++){
@@ -183,19 +198,33 @@ public class StateManager implements StateAccess{
 	public void completeGoal(String goalName){
 		for(Goal g:getPreventionGoals()){
 			if(goalName.equals(g.getName())){
-				g.complete(true);
+				g.complete(true,currentUser);
 			}
 		}
 		for(Goal g:getLongTermGoals()){
 			if(goalName.equals(g.getName())){
-				g.complete(true);
+				g.complete(true,currentUser);
 			}
 		}
 		for(Goal g:getRegularGoals()){
 			if(goalName.equals(g.getName())){
-				g.complete(true);
+				g.complete(true,currentUser);
 			}
 		}
+	}
+	
+	public List<Goal> getGoalsCompletedByUser(){
+		List<Goal> goals = getCompletedGoals();
+		List<Goal> toRemove = new ArrayList<Goal>();
+		for(Goal g:goals){
+			if(!g.getCompletedBy().equals(currentUser)){
+				toRemove.add(g);
+			}
+		}
+		for(Goal g:toRemove){
+			goals.remove(g);
+		}
+		return goals;
 	}
 	
 	public List<Goal> getCompletedGoals(){
@@ -218,6 +247,13 @@ public class StateManager implements StateAccess{
 		Collections.sort(ans);
 		return ans;
 	}
+	
+	public void dismissInformCard(String shortDesc){
+		for(InformCard i:informCards){
+			if(i.getShortDescription().equals(shortDesc)) i.dismissForUser(currentUser);
+		}
+	}
+	
 	
 	//--------------
 	//STATIC METHODS
@@ -300,7 +336,7 @@ public class StateManager implements StateAccess{
 		} 
 	}
 	
-	public static StateManager readState(String id){
+	public static StateManager readState(String id, String currentUser){
 		StateManager state = null;
 		try { 
 			// Set up & establish connection 

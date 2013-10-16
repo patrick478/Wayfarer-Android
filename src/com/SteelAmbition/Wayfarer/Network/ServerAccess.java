@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 public class ServerAccess {
 
     // The base server URL
-    //public static final String SERVER_URL = "http://wayfarer-server.herokuapp.com";
-    public static final String SERVER_URL = "http://10.0.2.2:5000"; //localhost
+    public static final String SERVER_URL = "http://wayfarer-server.herokuapp.com";
+    //public static final String SERVER_URL = "http://10.0.2.2:5000"; //localhost
 
     // The user currently logged in
     private static User currentUser;
