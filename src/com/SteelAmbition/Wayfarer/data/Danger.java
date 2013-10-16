@@ -27,6 +27,10 @@ public class Danger implements Comparable<Danger>{
 		return level;
 	}
 	
+	public void setLevel(double d){
+		level = d;
+	}
+	
 	public Question getRelevantQuestion(){
 		return relevantQuestion;
 	}

@@ -25,9 +25,10 @@ public class Database {
 		recoveryGoals.add(new Goal("recovery_goal_name","recovery_goal_description","recovery_goal_completion_question"));
 		regularGoals = new ArrayList<Goal>();
 		regularGoals.add(new Goal("regular_goal_name","regular_goal_description","regular_goal_completion_question"));
+		//getInitialSurvey();
 	}
 	
-	public Survey getInitialDatabase(){
+	public Survey getInitialSurvey(){
 		List<Question> questions = new ArrayList<Question>();
 		questions.add(new Question("Are they on any medication?",
 				Arrays.asList(new String[]{"None", "Antidepressant", "antipsychotic"})));
@@ -35,6 +36,8 @@ public class Database {
 				Arrays.asList(new String[]{"Yes (more than one)", "Yes (only one)", "No"})));
 		questions.add(new Question("Is there a history of mental illness in their family?",
 				Arrays.asList(new String[]{"Yes", "No", "Not sure"})));
+		questions.get(2).addCardWeight("Yes", "Consider genetics", 0.8);
+		questions.get(2).addCardWeight("No", "Consider genetics", -1);
 		questions.add(new Question("How close are you to this person?",
 				Arrays.asList(new String[]{"Not close", "Friend", "Close Friend", "Family"})));
 		questions.add(new Question("Have you already talked to them about this?",
@@ -50,12 +53,7 @@ public class Database {
     public void setID(String id){
         this.id = id;
     }
-
-    public Survey getInitialSurvey() {
-        //method stub
-        return null;
-    }
-
+	
 	public List<Danger> getDangers() {
 		return dangers;
 	}
@@ -77,7 +75,7 @@ public class Database {
 	}
 
 	public void setPreventativeGoals(List<Goal> preventativeGoals) {
-		preventativeGoals = preventativeGoals;
+		this.preventativeGoals = preventativeGoals;
 	}
 
 	public List<Goal> getRecoveryGoals() {
@@ -85,7 +83,7 @@ public class Database {
 	}
 
 	public void setRecoveryGoals(List<Goal> recoveryGoals) {
-		recoveryGoals = recoveryGoals;
+		this.recoveryGoals = recoveryGoals;
 	}
 
 	public List<Goal> getRegularGoals() {
@@ -93,7 +91,7 @@ public class Database {
 	}
 
 	public void setRegularGoals(List<Goal> regularGoals) {
-		regularGoals = regularGoals;
+		this.regularGoals = regularGoals;
 	}
 	
 }

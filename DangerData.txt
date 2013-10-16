@@ -1,69 +1,79 @@
-Mention of suicide
-Almost everyone who commits or attempts suicide has given some clue or warning. Do not ignore suicide threats. Statements like "you'll be sorry when I'm dead," "I can't see any way out," — no matter how casually or jokingly said may indicate serious suicidal feelings.
-How often have they mentioned suicide?
-Never
-Not Recently
-Recently
-Recently, several times
+Isolation
+Suicidal individuals will often try to isolate themselves from their friends and family. It is important to make sure they are getting regular attention from people who care about them.
+What best describes their social interactions over the past week?
+Turning down social invitations
+Danger: Isolation = 0.9
+Socialising only when asked to
+Danger: Isolation = 0.6
+Talking to people freely
+Danger: Isolation = 0.3
+Making arrangements to spend time with people
+Danger: Isolation = 0.1
 
-Seeking out lethal means
-Seeking access to guns, pills, knives, or other objects that could be used in a suicide attempt.
-Have they been seeking out lethal means?
-I have seen them
-I suspect they have
-No
+Hopelessness
+Suicidal people often feel powerless to make a difference to anything. Try to remind them of the good they can do/have done.
+How well are they doing in keeping up with responsibilities?
+Home/Person in poor condition
+Danger: Hopelessness = 0.9
+Personal stuff ok, but not dealing with commitments involving others
+Danger: Hopelessness = 0.6
+Dealing with responsibilities ok
+Danger: Hopelessness = 0.3
+Doing ok, and willing to accept new responsibilities
+Danger: Hopelessness = 0.1
 
-Preoccupation with death
-Unusual focus on death, dying, or violence. Writing poems or stories about death.
-Do they seem preocupied with death?
+Pessimism
+Cynicism in dangerous for a suicidal person, and can build up over time if no one supports them. Keep careful note of any pessimistic activity.
+Would you say their pessimism is concerning you?
 Yes
+Danger: Pessimism = 0.9
+Somewhat
+Danger: Pessimism = 0.5
 No
-Not sure
+Danger: Pessimism = 0.1
 
-No hope for the future
-Feelings of helplessness, hopelessness, and being trapped ("There's no way out"). Belief that things will never get better or change.
-Are they activly thinking about the future?
-Yes
+Health
+Health defects can both cause and be cause by depression. Look out for things like loss of appetite, sleep problems and drug use.
+How is their current state of health.
+Exhausted/Severe weight change (gain or loss)/Drug problem
+Danger: Health = 0.9
+Regularly tired/not exersising
+Danger: Health = 0.6
+Doing ok
+Danger: Health = 0.3
+Doing well
+Danger: Health = 0.1
+
+Agressivness
+Agressive outbursts from suicidal people can be triggered by small things. This may be a sign they are uncomfortable with how you are treating them.
+Have they had any agressive outbursts recently?
+Major incident
+Danger: Agressivness = 0.9
+Minor incident
+Danger: Agressivness = 0.5
 No
-Not sure
+Danger: Agressivness = 0.1
 
-Self-loathing, self-hatred
-Feelings of worthlessness, guilt, shame, and self-hatred. Feeling like a burden ("Everyone would be better off without me").
-Have they made self lothing statements recently?
-Yes
+Self-loathing
+Suicidal individuals may begin to see themselves as a burden on others. Doing everything for them may seem kind, but they need to do some things for themselves to stop this from happening.
+What level of self esteem best describes their recent activity?
+Convinced they are worthless
+Danger: Self-loathing = 0.9
+Unsure of themselves
+Danger: Self-loathing = 0.6
+Ok
+Danger: Self-loathing = 0.3
+Good
+Danger: Self-loathing = 0.1
+
+Recklessness
+People who do not value their own lives will behave recklessly. Make sure to steer them away from drugs and life altering decisions.
+Have they put themselves in a risky situation recently?
+Serious danger
+Danger: Recklessness = 0.9
+Potential physical harm
+Danger: Recklessness = 0.6
+Potential social/financial harm
+Danger: Recklessness = 0.3
 No
-Not sure
-
-Getting affairs in order
-Making out a will. Giving away prized possessions. Making arrangements for family members.
-Does their behaviour suggest they are getting their affairs in order?
-Yes
-No
-Not sure
-
-Saying goodbye
-Unusual or unexpected visits or calls to family and friends. Saying goodbye to people as if they won't be seen again.
-Are they behaving like they may not see you again?
-Yes
-No
-Not sure
-
-Withdrawing from others
-Withdrawing from friends and family. Increasing social isolation. Desire to be left alone.
-Have they initiated conversation with you or another person recently?
-Yes
-No
-
-Self-destructive behavior
-Increased alcohol or drug use, reckless driving, unsafe sex. Taking unnecessary risks as if they have a "death wish."
-Have you noticed self-destructive behaviour in them recently?
-None
-Minor
-Causing concern
-
-Sudden sense of calm
-A sudden sense of calm and happiness after being extremely depressed can mean that the person has made a decision to commit suicide.
-Have they ignored any bad things happening recently?
-None
-Yes (small case)
-Yes (large case)
+Danger: Recklessness = 0.1

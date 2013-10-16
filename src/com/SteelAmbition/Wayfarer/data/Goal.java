@@ -14,17 +14,24 @@ public class Goal implements Comparable<Goal>{
 	private String name;
 	private String description;
 	private boolean complete;
+	private String completedBy;
+	private Set<String> ignoreForUsersList;
 	private Date completeTime;
-	private String relatedQuestion = "";
+	private Question relatedQuestion;
 	
 public Goal(String name,String description,String relatedQuestion){
 		this.name = name;
 		this.description = description;
-		this.relatedQuestion = relatedQuestion;
+		this.relatedQuestion = new Question(relatedQuestion,Arrays.asList(new String[]{"Yes","No"}));
+		ignoreForUsersList = new HashSet<String>();
 	}
 	
 	public String getName(){
 		return name;
+	}
+	
+	public String getCompletedBy(){
+		return completedBy;
 	}
 	
 	public String getDescription(){
@@ -35,15 +42,16 @@ public Goal(String name,String description,String relatedQuestion){
 		return name+": "+description;
 	}
 	
-	public boolean equals(Object o){
-		if(!(o instanceof Goal)) return false;
-		Goal g = (Goal) o;
-		return name.equals(g.name) && description.equals(g.description);
+	public void ignoreForUser(String name){
+		ignoreForUsersList.add(name);
 	}
 	
-	public void complete(boolean completed){
+	public void complete(boolean completed, String completedBy){
 		complete = completed;
-		if(complete) completeTime = new Date();
+		if(complete) {
+			completeTime = new Date();
+			this.completedBy = completedBy;
+		}
 		else completeTime = null;
 	}
 	
@@ -51,12 +59,18 @@ public Goal(String name,String description,String relatedQuestion){
 		return complete;
 	}
 	
-	public String getRelatedQuestion(){
+	public Question getRelatedQuestion(){
 		return relatedQuestion;
 	}
 	
 	public Date getCompleteTime(){
 		return completeTime;
+	}
+	
+	public boolean equals(Object o){
+		if(!(o instanceof Goal)) return false;
+		Goal g = (Goal) o;
+		return name.equals(g.name) && description.equals(g.description);
 	}
 	
 	public int compareTo(Goal g){
