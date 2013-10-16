@@ -38,8 +38,6 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
        // Crashlytics.start(this);
 
-
-
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 
@@ -118,6 +116,15 @@ public class MainActivity extends SherlockFragmentActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
+
+
+
+
+
     @Override
     public void onStop(){
         super.onStop();
