@@ -13,7 +13,7 @@ public class PreventionNode {
 	private List<Goal> goals;
 	
 	public PreventionNode(List<Goal> goals){
-		this.goals = goals;
+		this.goals = new ArrayList<Goal>(goals);
 	}
 	
 	public List<Goal> getGoals(){

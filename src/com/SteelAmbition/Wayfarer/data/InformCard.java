@@ -54,6 +54,10 @@ public class InformCard implements Comparable<InformCard>{
 		return longDescription;
 	}
 	
+	public double getWeight(){
+		return weight;
+	}
+	
 	public String toString(){
 		return shortDescription;
 	}

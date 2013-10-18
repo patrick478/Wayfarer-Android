@@ -18,24 +18,24 @@ import java.util.*;
  *
  */
 public class StateManager implements StateAccess{
-	
+
 	private String state = "Preventative";
-	
+
 	private List<PreventionNode> preventionNodes = new ArrayList<PreventionNode>();
 	private int preventionNodeIndex = 0;
 	private List<RecoveryNode> recoveryNodes = new ArrayList<RecoveryNode>();
 	private int recoveryNodeIndex = 0;
-	
+
 	private List<Goal> goalPool = new ArrayList<Goal>();
-	
+
 	private List<Danger> dangers = new ArrayList<Danger>();
 	private List<InformCard> informCards = new ArrayList<InformCard>();
-	
+
 	private Survey survey;
 	private Date lastSurvey;
-	
+
 	private String currentUser;
-	
+
 	public StateManager(Database db, Survey s,String currentUser){
 		this.currentUser = currentUser;
 		for(Goal g:db.getPreventativeGoals()){
@@ -55,7 +55,7 @@ public class StateManager implements StateAccess{
 		}
 		s.apply(this);
 	}
-	
+
 	public StateManager(DummyLoader l) {
 		preventionNodes = l.loadPreventionNodes();
 		recoveryNodes = l.loadRecoveryNodes();
@@ -63,7 +63,7 @@ public class StateManager implements StateAccess{
 		dangers = l.loadDangers();
 		informCards = l.loadInformCards();
 	}
-	
+
 	public String getCurrentUser(){
 		return currentUser;
 	}
@@ -72,11 +72,11 @@ public class StateManager implements StateAccess{
 		state = "Preventative";
 		preventionNodeIndex = 0;
 	}
-	
+
 	public void goRecovery(){
 		state = "Recovery";
 	}
-	
+
 	public List<InformCard> getMostRelevantInfo(int num){
 		survey.sortInfo(informCards);
 		List<InformCard> ans = new ArrayList<InformCard>(getInformCards());
@@ -85,7 +85,7 @@ public class StateManager implements StateAccess{
 		}
 		return ans;
 	}
-	
+
 	public List<InformCard> getInformCards(){
 		List<InformCard> ans = new ArrayList<InformCard>(informCards);
 		List<InformCard> dismissals = new ArrayList<InformCard>();
@@ -95,7 +95,7 @@ public class StateManager implements StateAccess{
 		ans.removeAll(dismissals);
 		return ans;
 	}
-	
+
 	public void printSelf(){
 		StringBuilder b = new StringBuilder();
 		//Dangers
@@ -134,7 +134,7 @@ public class StateManager implements StateAccess{
 		b.delete(b.length()-5, b.length());
 		System.out.println(b);
 	}
-	
+
 	public String getState(){
 		return state;
 	}
@@ -154,24 +154,24 @@ public class StateManager implements StateAccess{
 	public List<Goal> getRegularGoals() {
 		return recoveryNodes.get(recoveryNodeIndex).getRegularGoals();
 	}
-	
+
 	public void applySurvey(Survey s) {
 		s.apply(this);
 		updateState();
 	}
-	
+
 	public void setPreventionNodes(List<PreventionNode> ns){
 		preventionNodeIndex = 0;
 		preventionNodes = ns;
 	}
-	
+
 	private void updateState(){
 		if(state.equals("Preventative") && preventionNodes.get(preventionNodeIndex).isComplete()){
 			preventionNodeIndex++;
 			if(preventionNodeIndex == preventionNodes.size()) state = "Recovery";
 		}
 	}
-	
+
 	/*public void fixGSON(){
 		if(preventionNodes == null) preventionNodes = new ArrayList<PreventionNode>();
 		if(recoveryNodes == null) recoveryNodes = new ArrayList<RecoveryNode>();
@@ -179,7 +179,7 @@ public class StateManager implements StateAccess{
 		if(informCards == null) informCards = new ArrayList<InformCard>();
 		if(dangers == null) dangers = new ArrayList<Danger>();
 	}*/
-	
+
 	public Survey getSurvey() {
 		//if(new Date().getTime() - lastSurvey.getTime() < 1000*60*60*24)	return null;
 		List<Question> qs = new ArrayList<Question>();
@@ -194,7 +194,7 @@ public class StateManager implements StateAccess{
 		lastSurvey = new Date();
 		return survey;
 	}
-	
+
 	public void completeGoal(String goalName){
 		for(Goal g:getPreventionGoals()){
 			if(goalName.equals(g.getName())){
@@ -212,7 +212,7 @@ public class StateManager implements StateAccess{
 			}
 		}
 	}
-	
+
 	public List<Goal> getGoalsCompletedByUser(){
 		List<Goal> goals = getCompletedGoals();
 		List<Goal> toRemove = new ArrayList<Goal>();
@@ -226,17 +226,21 @@ public class StateManager implements StateAccess{
 		}
 		return goals;
 	}
-	
+
 	public List<Goal> getCompletedGoals(){
 		List<Goal> ans = new ArrayList<Goal>();
-		for(Goal g:getPreventionGoals()){
-			if(g.isComplete()){
-				ans.add(g);
+		for(PreventionNode n:preventionNodes){
+			for(Goal g:n.getGoals()){
+				if(g.isComplete()){
+					ans.add(g);
+				}
 			}
 		}
-		for(Goal g:getLongTermGoals()){
-			if(g.isComplete()){
-				ans.add(g);
+		for(RecoveryNode n:recoveryNodes){
+			for(Goal g:n.getLongTermGoals()){
+				if(g.isComplete()){
+					ans.add(g);
+				}
 			}
 		}
 		for(Goal g:getRegularGoals()){
@@ -247,17 +251,21 @@ public class StateManager implements StateAccess{
 		Collections.sort(ans);
 		return ans;
 	}
-	
+
 	public void dismissInformCard(String shortDesc){
 		for(InformCard i:informCards){
 			if(i.getShortDescription().equals(shortDesc)) i.dismissForUser(currentUser);
 		}
 	}
-	
-	
+
+	public void setUser(String name){
+		currentUser = name;
+	}
+
+
 	//--------------
 	//STATIC METHODS
-	
+
 	public static Database newUserDatabase(String name){
 		Database db = null;
 		try { 
@@ -282,19 +290,19 @@ public class StateManager implements StateAccess{
 
 			// Get response 
 			String reply = convertStreamToString(conn.getInputStream());
-            String id = "";
-            JsonElement jelement = new JsonParser().parse(reply);
-            JsonObject  jobject = jelement.getAsJsonObject();
-            id = jobject.get("id").toString().substring(1, jobject.get("id").toString().length()-1);
-            jelement = new JsonParser().parse(reply);
-             jobject = jelement.getAsJsonObject();
-            reply = jobject.get("datapool").toString();
+			String id = "";
+			JsonElement jelement = new JsonParser().parse(reply);
+			JsonObject  jobject = jelement.getAsJsonObject();
+			id = jobject.get("id").toString().substring(1, jobject.get("id").toString().length()-1);
+			jelement = new JsonParser().parse(reply);
+			jobject = jelement.getAsJsonObject();
+			reply = jobject.get("datapool").toString();
 			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()+"\n"+reply); 
 			JsonReader jr = new JsonReader(new StringReader(reply));
 			jr.setLenient(true);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			db = gson.fromJson(jr,Database.class);
-            db.setID(id);
+			db.setID(id);
 		} catch (MalformedURLException e) { 
 			System.out.println("PostTask "+e.getMessage()); 
 		} catch (IOException e) { 
@@ -302,7 +310,7 @@ public class StateManager implements StateAccess{
 		} 
 		return db;
 	}
-	
+
 	public static void postState(StateManager state,String id){
 		try { 
 			// Set up & establish connection 
@@ -335,7 +343,7 @@ public class StateManager implements StateAccess{
 			System.out.println("PostTask "+e.getMessage()); 
 		} 
 	}
-	
+
 	public static StateManager readState(String id, String currentUser){
 		StateManager state = null;
 		try { 
@@ -367,9 +375,17 @@ public class StateManager implements StateAccess{
 		} 
 		return state;
 	}
-	
+
+	public void setInformCards(List<InformCard> cards){
+		informCards = cards;
+	}
+
+	public void setDangers(List<Danger> dangers){
+		this.dangers = dangers;
+	}
+
 	private static String convertStreamToString(InputStream is) {
-	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-	    return s.hasNext() ? s.next() : "";
+		java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
 	}
 }

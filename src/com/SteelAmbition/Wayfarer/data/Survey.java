@@ -32,6 +32,9 @@ public class Survey {
 		for(Question q:questions){
 			q.apply(s);
 		}
+		if(s.getPreventionGoals().size() == 0){
+			
+		}
 	}
 	
 	public String toString(){
