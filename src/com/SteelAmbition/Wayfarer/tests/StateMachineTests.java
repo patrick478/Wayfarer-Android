@@ -1,5 +1,24 @@
 package com.SteelAmbition.Wayfarer.tests;
 
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.SteelAmbition.Wayfarer.data.Danger;
+import com.SteelAmbition.Wayfarer.data.Database;
+import com.SteelAmbition.Wayfarer.data.Goal;
+import com.SteelAmbition.Wayfarer.data.InformCard;
+import com.SteelAmbition.Wayfarer.data.PreventionNode;
+import com.SteelAmbition.Wayfarer.data.Question;
+import com.SteelAmbition.Wayfarer.data.RecoveryNode;
+import com.SteelAmbition.Wayfarer.data.StateManager;
+import com.SteelAmbition.Wayfarer.data.Survey;
+import com.SteelAmbition.Wayfarer.loader.DummyLoader;
+
 /**
  * Tests for the state machine and its components
  * 
@@ -7,7 +26,7 @@ package com.SteelAmbition.Wayfarer.tests;
  *
  */
 public class StateMachineTests {
-	/*
+	
 	@Test
 	public void testDanger(){
 		Danger d = new Danger("Isolation","",0,null);
@@ -156,5 +175,105 @@ public class StateMachineTests {
 		sm.completeGoal("G1");
 		assertTrue(sm.getCompletedGoals().size() == 1);
 		assertTrue(sm.getCompletedGoals().get(0).getName().equals("G1"));
-	}      */
+	}
+	
+	@Test
+	public void testInformCardWeights(){
+		StateManager sm = new StateManager(new DummyLoader());
+		List<PreventionNode> ns = new ArrayList<PreventionNode>();
+		ns.add(new PreventionNode(Arrays.asList(new Goal[]{new Goal("G1","test goal",null)})));
+		sm.setPreventionNodes(ns);
+		List<InformCard> cards = new ArrayList<InformCard>();
+		cards.add(new InformCard("test_card","longdesc"));
+		sm.setInformCards(cards);
+		List<String> ans = new ArrayList<String>();
+		ans.add("yes");
+		ans.add("no");
+		List<Question> qs = new ArrayList<Question>();
+		qs.add(new Question("It it complete?",ans));
+		qs.get(0).addCardWeight("yes", "test_card", 1.0);
+		qs.get(0).answer(0);
+		Survey s = new Survey(qs);
+		sm.applySurvey(s);
+		assertTrue(1.0 == sm.getInformCards().get(0).getWeight());
+	}
+	
+	@Test
+	public void testDangerWeights(){
+		StateManager sm = new StateManager(new DummyLoader());
+		List<PreventionNode> ns = new ArrayList<PreventionNode>();
+		ns.add(new PreventionNode(Arrays.asList(new Goal[]{new Goal("G1","test goal",null)})));
+		sm.setPreventionNodes(ns);
+		List<Danger> dangers = new ArrayList<Danger>();
+		dangers.add(new Danger("test_danger","desc",0.1,new Question("Q1", Arrays.asList(new String[]{"Yes","No"}))));
+		sm.setDangers(dangers);
+		List<String> ans = new ArrayList<String>();
+		ans.add("yes");
+		ans.add("no");
+		List<Question> qs = new ArrayList<Question>();
+		qs.add(new Question("It it complete?",ans));
+		qs.get(0).addDangerWeight("yes", "test_danger", 0.5);
+		qs.get(0).answer(0);
+		Survey s = new Survey(qs);
+		sm.applySurvey(s);
+		assertTrue(0.5 == sm.getDangers().get(0).getLevel());
+	}
+	
+	@Test
+	public void testDismissInformCards(){
+		Database db = new Database();
+		List<InformCard> cards = new ArrayList<InformCard>();
+		cards.add(new InformCard("test_card","longdesc"));
+		db.setInformCards(cards);
+		StateManager sm = new StateManager(db,new Survey(Arrays.asList(new Question[]{})),"test_user");
+		sm.dismissInformCard("test_card");
+		assertTrue(0 == sm.getInformCards().size());
+		sm.setUser("frank");
+		assertTrue(1 == sm.getInformCards().size());
+		sm.setUser("test_user");
+		assertTrue(0 == sm.getInformCards().size());
+	}
+	
+	@Test
+	public void testGoalRemoval(){
+		Database db = new Database();
+		List<Goal> goals = new ArrayList<Goal>();
+		goals.add(new Goal("G1","desc","Q1"));
+		goals.add(new Goal("G2","desc","Q2"));
+		db.setPreventativeGoals(goals);
+		StateManager sm = new StateManager(db,new Survey(Arrays.asList(new Question[]{})),"test_user");
+		List<String> ans = new ArrayList<String>();
+		ans.add("yes");
+		ans.add("no");
+		List<Question> qs = new ArrayList<Question>();
+		qs.add(new Question("It it complete?",ans));
+		qs.get(0).addRemoval("yes", "G1", true);
+		assertTrue(sm.getPreventionGoals().get(0).getName().equals("G1"));
+		assertTrue(sm.getPreventionGoals().get(0).getCompletedBy() == null);
+		qs.get(0).answer(0);
+		Survey s = new Survey(qs);
+		sm.applySurvey(s);
+		assertTrue(sm.getPreventionGoals().get(0).getName().equals("G2"));
+	}
+	
+	@Test
+	public void testCompletedByUser(){
+		Database db = new Database();
+		List<Goal> goals = new ArrayList<Goal>();
+		goals.add(new Goal("G1","desc","Q1"));
+		goals.add(new Goal("G2","desc","Q2"));
+		db.setPreventativeGoals(goals);
+		StateManager sm = new StateManager(db,new Survey(Arrays.asList(new Question[]{})),"test_user");
+		List<String> ans = new ArrayList<String>();
+		ans.add("yes");
+		ans.add("no");
+		List<Question> qs = new ArrayList<Question>();
+		qs.add(new Question("It it complete?",ans));
+		qs.get(0).addOutcome("yes", "G1", true);
+		qs.get(0).answer(0);
+		Survey s = new Survey(qs);
+		sm.applySurvey(s);
+		assertTrue(sm.getCompletedGoals().get(0).getName().equals("G1"));
+		assertTrue(sm.getCompletedGoals().get(0).getCompletedBy().equals("test_user"));
+	}
 }

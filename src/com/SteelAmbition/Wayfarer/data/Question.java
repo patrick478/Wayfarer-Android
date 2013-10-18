@@ -90,15 +90,15 @@ public class Question {
 		List<Goal> toRemove = new ArrayList<Goal>();
 		for(Danger d:s.getDangers()){
 			for(int i=0;i<outcomes.size();i++){
-				if(i == selectedAnswer && outcomes.get(i).containsKey(d.getName())){
+				if(i == selectedAnswer && dangerWeights.get(i).containsKey(d.getName())){
 					d.setLevel(dangerWeights.get(i).get(d.getName()));
 				}
 			}
 		}
 		for(InformCard c:s.getInformCards()){
 			for(int i=0;i<outcomes.size();i++){
-				if(i == selectedAnswer && outcomes.get(i).containsKey(c.getShortDescription())){
-					c.addWeight(dangerWeights.get(i).get(c.getShortDescription()));
+				if(i == selectedAnswer && weights.get(i).containsKey(c.getShortDescription())){
+					c.addWeight(weights.get(i).get(c.getShortDescription()));
 				}
 			}
 		}
@@ -132,9 +132,9 @@ public class Question {
 				}
 			}
 		}
-		s.getPreventionGoals().removeAll(toRemove);
-		s.getLongTermGoals().removeAll(toRemove);
-		s.getRegularGoals().removeAll(toRemove);
+		for(Goal g:toRemove) s.getPreventionGoals().remove(g);
+		for(Goal g:toRemove) s.getLongTermGoals().remove(g);
+		for(Goal g:toRemove) s.getRegularGoals().remove(g);
 		return true;
 	}
 }
