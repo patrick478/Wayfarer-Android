@@ -72,7 +72,7 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         HttpResponse response;
 		private Activity activity;
 
-        public CreateSubject(String name,Activity activity){
+        public CreateSubject(String name, Activity activity){
         	this.activity = activity;
         	this.name = name;
         }
@@ -89,26 +89,13 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         protected Database doInBackground(String... params) {
             Database db = StateManager.newUserDatabase(name);
 
-            Survey s = db.getInitialSurvey(); //todo FIX
-
-            //           Survey
-            List<Question> qlist = new ArrayList<Question>();
-            String ques = "This is a question <test>";
-            List<String> alist = new ArrayList<String>();
-            alist.add("Answer 1");
-            alist.add("Answer 2");
-            alist.add("Answer 3");
-            alist.add("Answer 4");
-            Question question = new Question(ques, alist);
-
-            qlist.add(question);
-            s = new Survey(qlist);
+            Survey s = db.getInitialSurvey();
 
             for (Question q : s.getQuestions()) {
                 QuestionActivity.setQuestion(q);
             }
 
-            MainActivity.stateManager = new StateManager(db, s);
+            MainActivity.stateManager = new StateManager(db, s, MainActivity.userID);
 
             StateManager.postState(MainActivity.stateManager, db.getId());
 

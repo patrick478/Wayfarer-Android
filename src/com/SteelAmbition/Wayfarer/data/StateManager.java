@@ -1,5 +1,6 @@
 package com.SteelAmbition.Wayfarer.data;
 
+import com.SteelAmbition.Wayfarer.Network.Subject;
 import com.SteelAmbition.Wayfarer.loader.DummyLoader;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;

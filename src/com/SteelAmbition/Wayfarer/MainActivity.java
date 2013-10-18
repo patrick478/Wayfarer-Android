@@ -38,6 +38,7 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
        // Crashlytics.start(this);
 
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 
@@ -180,7 +181,7 @@ public class MainActivity extends SherlockFragmentActivity {
 //        userID = db.getId();
 //        Main.postState(stateManager, userID);
         //setUserAndSubjectFromSharedPrefs();
-        new SubjectLoader().execute(subjectID);
+        new SubjectLoader().execute(subjectID, userID);
     }
 
     class SubjectLoader extends AsyncTask<String, Void, String> {
@@ -192,7 +193,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            MainActivity.stateManager = StateManager.readState(params[0]);
+            MainActivity.stateManager = StateManager.readState(params[0], params[1]);
 
             return Utils.getJSONString("http://wayfarer-server.herokuapp.com/steps");
         }
