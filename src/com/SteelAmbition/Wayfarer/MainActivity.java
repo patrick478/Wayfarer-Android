@@ -14,12 +14,15 @@ import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
 import com.SteelAmbition.Wayfarer.Dangers.DangersFragment;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
 import com.SteelAmbition.Wayfarer.Information.InformationFragment;
+import com.SteelAmbition.Wayfarer.Network.AuthenticationException;
+import com.SteelAmbition.Wayfarer.Network.NetworkFailureException;
+import com.SteelAmbition.Wayfarer.Network.ServerAccess;
+import com.SteelAmbition.Wayfarer.Network.User;
 import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.crashlytics.android.Crashlytics;
 import com.github.espiandev.showcaseview.ShowcaseView;
 
 
@@ -43,7 +46,7 @@ public class MainActivity extends SherlockFragmentActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 
-        setUserAndSubjectFromSharedPrefs();
+        new LogIntoUser().execute();
 
 
 
@@ -71,6 +74,13 @@ public class MainActivity extends SherlockFragmentActivity {
         }
         else{
             userID = sharedPreferences.getString("id", "");
+            try {
+                ServerAccess.setCurrentUser(new User(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
+            } catch (AuthenticationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NetworkFailureException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
 
             SharedPreferences subjectPreferences = getSharedPreferences("subject", 0);
             if(subjectPreferences.getString("id", "")==""){
@@ -129,7 +139,8 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
-        setUserAndSubjectFromSharedPrefs();
+        if(ServerAccess.getCurrentUser()!= null) this.finish();
+        new LogIntoUser().execute();
         //setUp();
 
     }
@@ -173,7 +184,16 @@ public class MainActivity extends SherlockFragmentActivity {
 //        userID = db.getId();
 //        Main.postState(stateManager, userID);
         //setUserAndSubjectFromSharedPrefs();
-        new SubjectLoader().execute(subjectID);
+        new SubjectLoader().execute(subjectID, userID);
+    }
+
+    class LogIntoUser extends AsyncTask<Void, Void, Void>  {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            setUserAndSubjectFromSharedPrefs();
+            return null;
+        }
     }
 
     class SubjectLoader extends AsyncTask<String, Void, String> {
@@ -185,7 +205,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            MainActivity.stateManager = StateManager.readState(params[0]);
+            MainActivity.stateManager = StateManager.readState(params[0], params[1]);
 
             return Utils.getJSONString("http://wayfarer-server.herokuapp.com/steps");
         }

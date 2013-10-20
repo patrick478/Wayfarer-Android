@@ -1,23 +1,14 @@
 package com.SteelAmbition.Wayfarer.tests;
 
-import static org.junit.Assert.*;
+import com.SteelAmbition.Wayfarer.data.*;
+import com.SteelAmbition.Wayfarer.loader.DummyLoader;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.SteelAmbition.Wayfarer.data.Danger;
-import com.SteelAmbition.Wayfarer.data.Database;
-import com.SteelAmbition.Wayfarer.data.Goal;
-import com.SteelAmbition.Wayfarer.data.InformCard;
-import com.SteelAmbition.Wayfarer.data.PreventionNode;
-import com.SteelAmbition.Wayfarer.data.Question;
-import com.SteelAmbition.Wayfarer.data.RecoveryNode;
-import com.SteelAmbition.Wayfarer.data.StateManager;
-import com.SteelAmbition.Wayfarer.data.Survey;
-import com.SteelAmbition.Wayfarer.loader.DummyLoader;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the state machine and its components
