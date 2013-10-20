@@ -378,6 +378,12 @@
       "dismissals": []
     },
     {
+      "shortDescription": "Health problems",
+      "longDescription": "Poor health, including bad diet and lack of sleep can be a contributing factor to suicide. Make sure the person is eating well and getting regular exercise. ",
+      "weight": 0.0,
+      "dismissals": []
+    },
+    {
       "shortDescription": "Self-destructive behaviour",
       "longDescription": "Increased alcohol or drug use, reckless driving, unsafe sex. Taking unnecessary risks as if they have a \"death wish.\" These can all be signs that a person is considering suicide. If you notice these signs, read ‘Starting a conversation’.",
       "weight": 0.0,
@@ -386,6 +392,18 @@
     {
       "shortDescription": "Sudden sense of calm",
       "longDescription": "A sudden sense of calm and happiness after being extremely depressed can mean that the person has made a decision to commit suicide. If this is true confront them immediately. A call button for the suicide hotline is available on the front page of this app.",
+      "weight": 0.0,
+      "dismissals": []
+    },
+    {
+      "shortDescription": "The dangers of isolation",
+      "longDescription": "Left alone their is a good chance that a suicidal individual will only get worse. Make sure to maintain regular contact with them and ask them if there is anything you can do to help them.",
+      "weight": 0.0,
+      "dismissals": []
+    },
+    {
+      "shortDescription": "Feeling worthless",
+      "longDescription": "There is a chance a suicidal person will think of themselves as a burden to their friends and not worthy of help. If you suspect this is true, try to find them something to do that will make them feel useful.",
       "weight": 0.0,
       "dismissals": []
     },
@@ -410,8 +428,16 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Saying goodbye": -0.2,
+            "Mention of suicide": -0.2,
+            "Getting affairs in order": -0.1
+          },
+          {
+            "Saying goodbye": 0.2,
+            "Mention of suicide": 0.2,
+            "Getting affairs in order": 0.1
+          }
         ],
         "dangerWeights": [
           {},
@@ -440,8 +466,14 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Self-destructive behaviour": -0.2,
+            "Preoccupation with death": -0.2
+          },
+          {
+            "Self-destructive behaviour": 0.2,
+            "Preoccupation with death": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -470,8 +502,12 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Feeling worthless": -0.2
+          },
+          {
+            "Feeling worthless": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -500,8 +536,14 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Seeking out lethal means": -0.2,
+            "Withdrawing from others": -0.1
+          },
+          {
+            "Seeking out lethal means": 0.2,
+            "Withdrawing from others": 0.1
+          }
         ],
         "dangerWeights": [
           {},
@@ -530,8 +572,16 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "No hope for the future": -0.1,
+            "Self-loathing, self-hatred": -0.1,
+            "The dangers of isolation": -0.2
+          },
+          {
+            "No hope for the future": 0.1,
+            "Self-loathing, self-hatred": 0.1,
+            "The dangers of isolation": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -634,8 +684,12 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Health problems": -0.2
+          },
+          {
+            "Health problems": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -664,8 +718,12 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Health problems": -0.2
+          },
+          {
+            "Health problems": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -694,8 +752,14 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "No hope for the future": -0.1,
+            "Withdrawing from others": -0.2
+          },
+          {
+            "No hope for the future": 0.1,
+            "Withdrawing from others": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -724,8 +788,14 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Saying goodbye": -0.2,
+            "Sudden sense of calm": -0.1
+          },
+          {
+            "Saying goodbye": 0.2,
+            "Sudden sense of calm": 0.1
+          }
         ],
         "dangerWeights": [
           {},
@@ -754,8 +824,16 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "No hope for the future": -0.1,
+            "The dangers of isolation": -0.1,
+            "Feeling worthless": -0.2
+          },
+          {
+            "No hope for the future": 0.1,
+            "The dangers of isolation": 0.1,
+            "Feeling worthless": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -784,8 +862,12 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Self-loathing, self-hatred": -0.2
+          },
+          {
+            "Self-loathing, self-hatred": 0.2
+          }
         ],
         "dangerWeights": [
           {},
@@ -814,8 +896,12 @@
         ],
         "selectedAnswer": -1,
         "weights": [
-          {},
-          {}
+          {
+            "Self-loathing, self-hatred": -0.2
+          },
+          {
+            "Self-loathing, self-hatred": 0.2
+          }
         ],
         "dangerWeights": [
           {},

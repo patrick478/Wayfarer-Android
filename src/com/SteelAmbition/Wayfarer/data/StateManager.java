@@ -1,9 +1,20 @@
 package com.SteelAmbition.Wayfarer.data;
 
+<<<<<<< HEAD
 import com.SteelAmbition.Wayfarer.Network.Subject;
+=======
+import com.SteelAmbition.Wayfarer.Network.AlreadyExistsException;
+import com.SteelAmbition.Wayfarer.Network.AuthenticationException;
+import com.SteelAmbition.Wayfarer.Network.NetworkFailureException;
+import com.SteelAmbition.Wayfarer.Network.ServerAccess;
+>>>>>>> 1aa2e4684ac955d2e6bb7cfae3187a09589fb6bf
 import com.SteelAmbition.Wayfarer.loader.DummyLoader;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -269,47 +280,37 @@ public class StateManager implements StateAccess{
 
 	public static Database newUserDatabase(String name){
 		Database db = null;
-		try { 
-			// Set up & establish connection 
-			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects");
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
-			conn.setReadTimeout(100000); 
-			conn.setConnectTimeout(150000); 
-			conn.setRequestMethod("PUT"); 
-			conn.addRequestProperty("Content-Type", "application/json");
-			conn.setDoInput(true); 
-			conn.setDoOutput(true); 
 
-			// Send data 
-			OutputStream os = conn.getOutputStream(); 
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, 
-					"UTF-8")); 
-			//System.out.println(a.getHtml());
-			bw.write("{\"name\": \""+name+"\"}");
-			bw.close(); 
-			os.close(); 
+		try {
 
-			// Get response 
-			String reply = convertStreamToString(conn.getInputStream());
-			String id = "";
-			JsonElement jelement = new JsonParser().parse(reply);
-			JsonObject  jobject = jelement.getAsJsonObject();
-			id = jobject.get("id").toString().substring(1, jobject.get("id").toString().length()-1);
-			jelement = new JsonParser().parse(reply);
-			jobject = jelement.getAsJsonObject();
-			reply = jobject.get("datapool").toString();
-			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()+"\n"+reply); 
-			JsonReader jr = new JsonReader(new StringReader(reply));
-			jr.setLenient(true);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			db = gson.fromJson(jr,Database.class);
-			db.setID(id);
+            JSONObject json = new JSONObject();
+            json.put("name", name);
+
+            HttpResponse response = ServerAccess.doRequest("PUT", "/subjects", 201, json, ServerAccess.getCurrentUser().getAuthHeader());
+
+            JSONObject reply = new JSONObject(EntityUtils.toString(response.getEntity()));
+            String id = reply.getString("id");
+            JSONObject datapool = reply.getJSONObject("datapool");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonReader jr = new JsonReader(new StringReader(datapool.toString()));
+            db = gson.fromJson(jr,Database.class);
+            db.setID(id);
+
+
 		} catch (MalformedURLException e) { 
 			System.out.println("PostTask "+e.getMessage()); 
 		} catch (IOException e) { 
 			System.out.println("PostTask "+e.getMessage()); 
-		} 
-		return db;
+		} catch (NetworkFailureException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (AuthenticationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (JSONException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return db;
 	}
 
 	public static void postState(StateManager state,String id){

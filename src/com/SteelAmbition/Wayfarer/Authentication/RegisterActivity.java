@@ -13,29 +13,8 @@ import com.SteelAmbition.Wayfarer.Network.NetworkFailureException;
 import com.SteelAmbition.Wayfarer.Network.ServerAccess;
 import com.SteelAmbition.Wayfarer.Network.User;
 import com.SteelAmbition.Wayfarer.R;
-import com.SteelAmbition.Wayfarer.crouton.Crouton;
-import com.SteelAmbition.Wayfarer.crouton.Style;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -133,6 +112,7 @@ public class RegisterActivity extends SherlockFragmentActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("user", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("id", user.getId());
+                editor.putString("password", user.getPassword());
                 editor.putString("email", user.getEmail());
                 editor.putString("name", user.getName());
                 editor.putBoolean("logged_in", true);
@@ -141,7 +121,7 @@ public class RegisterActivity extends SherlockFragmentActivity {
                 System.out.println("userid="+user.getId());
 
                 MainActivity.userID =  user.getId();
-
+                ServerAccess.setCurrentUser(user);
                 activity.setProgressBarIndeterminateVisibility(false);
                 activity.finish();
             }
