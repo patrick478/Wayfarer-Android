@@ -54,6 +54,11 @@ public class StateManager implements StateAccess{
 			informCards.add(i);
 		}
 		s.apply(this);
+		dangers.get(0).setLevel(0.8);
+		dangers.get(1).setLevel(0.6);
+		dangers.get(2).setLevel(0.4);
+		dangers.get(3).setLevel(0.2);
+		dangers.get(4).setLevel(0.2);
 	}
 
 	public StateManager(DummyLoader l) {
