@@ -193,8 +193,6 @@ public class MainActivity extends SherlockFragmentActivity {
 //        Main.postState(stateManager, userID);
         //setUserAndSubjectFromSharedPrefs();
         new SubjectLoader().execute(subjectID, userID);
-<<<<<<< HEAD
-=======
     }
 
     class LogIntoUser extends AsyncTask<Void, Void, Void>  {
@@ -204,7 +202,6 @@ public class MainActivity extends SherlockFragmentActivity {
             setUserAndSubjectFromSharedPrefs();
             return null;
         }
->>>>>>> 1aa2e4684ac955d2e6bb7cfae3187a09589fb6bf
     }
 
     class SubjectLoader extends AsyncTask<String, Void, String> {

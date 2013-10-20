@@ -89,24 +89,7 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         protected Database doInBackground(String... params) {
             Database db = StateManager.newUserDatabase(name);
 
-<<<<<<< HEAD
             Survey s = db.getInitialSurvey();
-=======
-             Survey s = db.getInitialSurvey(); //todo FIX
-
-            //Survey
-            List<Question> qlist = new ArrayList<Question>();
-            String ques = "This is a question <test>";
-            List<String> alist = new ArrayList<String>();
-            alist.add("Answer 1");
-            alist.add("Answer 2");
-            alist.add("Answer 3");
-            alist.add("Answer 4");
-            Question question = new Question(ques, alist);
-
-            qlist.add(question);
-            s = new Survey(qlist);
->>>>>>> 1aa2e4684ac955d2e6bb7cfae3187a09589fb6bf
 
             for (Question q : s.getQuestions()) {
                 QuestionActivity.setQuestion(q);

@@ -1,13 +1,7 @@
 package com.SteelAmbition.Wayfarer.data;
 
-<<<<<<< HEAD
-import com.SteelAmbition.Wayfarer.Network.Subject;
-=======
-import com.SteelAmbition.Wayfarer.Network.AlreadyExistsException;
-import com.SteelAmbition.Wayfarer.Network.AuthenticationException;
-import com.SteelAmbition.Wayfarer.Network.NetworkFailureException;
-import com.SteelAmbition.Wayfarer.Network.ServerAccess;
->>>>>>> 1aa2e4684ac955d2e6bb7cfae3187a09589fb6bf
+import com.SteelAmbition.Wayfarer.MainActivity;
+import com.SteelAmbition.Wayfarer.Network.*;
 import com.SteelAmbition.Wayfarer.loader.DummyLoader;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
@@ -286,29 +280,37 @@ public class StateManager implements StateAccess{
             JSONObject json = new JSONObject();
             json.put("name", name);
 
-            HttpResponse response = ServerAccess.doRequest("PUT", "/subjects", 201, json, ServerAccess.getCurrentUser().getAuthHeader());
+//            HttpResponse response = ServerAccess.doRequest("PUT", "/subjects", 201, json, ServerAccess.getCurrentUser().getAuthHeader());
 
-            JSONObject reply = new JSONObject(EntityUtils.toString(response.getEntity()));
-            String id = reply.getString("id");
-            JSONObject datapool = reply.getJSONObject("datapool");
+            Subject s = new Subject(ServerAccess.getCurrentUser(), name); //todo
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonReader jr = new JsonReader(new StringReader(datapool.toString()));
+            JsonReader jr = new JsonReader(new StringReader(s.getDatapool().toString()));
+
+
+//            JSONObject reply = new JSONObject(EntityUtils.toString(response.getEntity()));
+//            String id = reply.getString("id");
+//            JSONObject datapool = reply.getJSONObject("datapool");
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            JsonReader jr = new JsonReader(new StringReader(datapool.toString()));
+
+
             db = gson.fromJson(jr,Database.class);
-            db.setID(id);
+            db.setID(null);
 
-
-		} catch (MalformedURLException e) { 
-			System.out.println("PostTask "+e.getMessage()); 
-		} catch (IOException e) { 
-			System.out.println("PostTask "+e.getMessage()); 
+//		} catch (MalformedURLException e) {
+//			System.out.println("PostTask "+e.getMessage());
+//		} catch (IOException e) {
+//			System.out.println("PostTask "+e.getMessage());
 		} catch (NetworkFailureException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (AuthenticationException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (AlreadyExistsException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (AlreadyExistsException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (JSONException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (DoesNotExistException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return db;
 	}
