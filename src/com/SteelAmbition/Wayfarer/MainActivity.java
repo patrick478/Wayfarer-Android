@@ -149,6 +149,12 @@ public class MainActivity extends SherlockFragmentActivity {
         com.actionbarsherlock.app.ActionBar bar = getSupportActionBar();
         bar.setNavigationMode(com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_TABS);
 
+
+        String dashboardTitle = getResources().getString(R.string.dashboard);
+        com.actionbarsherlock.app.ActionBar.Tab dashboardTab = bar.newTab().setText(dashboardTitle);
+        dashboardTab.setTabListener(new TabListener(this, dashboardTitle, DashboardFragment.class));
+        bar.addTab(dashboardTab);
+
         String goalsTitle = getResources().getString(R.string.goals);
         com.actionbarsherlock.app.ActionBar.Tab goalsTab = bar.newTab().setText(goalsTitle);
         goalsTab.setTabListener(new TabListener(this, goalsTitle, GoalsFragment.class));
@@ -164,10 +170,6 @@ public class MainActivity extends SherlockFragmentActivity {
         infoTab.setTabListener(new TabListener(this, dangersTitle, InformationFragment.class));
         bar.addTab(infoTab);
 
-        String dashboardTitle = getResources().getString(R.string.dashboard);
-        com.actionbarsherlock.app.ActionBar.Tab dashboardTab = bar.newTab().setText(dashboardTitle);
-        dashboardTab.setTabListener(new TabListener(this, dashboardTitle, DashboardFragment.class));
-        bar.addTab(dashboardTab);
 
         String socialTitle = getResources().getString(R.string.social);
         com.actionbarsherlock.app.ActionBar.Tab socialTab = bar.newTab().setText(socialTitle);

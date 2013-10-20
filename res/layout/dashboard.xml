@@ -8,7 +8,7 @@
             android:layout_height="wrap_content"
             android:text="Hello, name goes here!"
             android:id="@+id/nameHello" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
-            android:layout_marginLeft="6dp" android:layout_marginTop="6dp"/>
+            android:layout_marginLeft="6dp" android:layout_marginTop="6dp" android:layout_marginBottom="6dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,7 +18,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0/10"
             android:id="@+id/goalsCount" android:layout_alignParentRight="true" android:layout_alignTop="@+id/textView"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp" android:singleLine="false"/>
+         <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/goalsProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:indeterminate="false"
+            android:layout_alignLeft="@+id/textView" android:layout_below="@+id/textView"
+            android:layout_toLeftOf="@+id/goalsCount"/>
 </RelativeLayout>

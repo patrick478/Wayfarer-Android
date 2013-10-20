@@ -40,4 +40,12 @@ public class Danger implements Comparable<Danger>{
 		if(level == o.level) return 0;
 		return level < o.level ? 1 : -1;
 	}
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

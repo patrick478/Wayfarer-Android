@@ -9,15 +9,15 @@
             android:layout_height="wrap_content"
             android:text="Title goes here"
             android:id="@+id/goalTitle" android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
-            android:layout_marginTop="6dp" android:textStyle="bold|normal"
+            android:textStyle="bold|normal"
             android:textColor="@android:color/primary_text_light" android:singleLine="false" android:textSize="20dp"
-            android:textIsSelectable="false" android:layout_marginBottom="6dp" android:layout_alignParentRight="true"
-            android:layout_marginLeft="6dp" android:layout_marginRight="6dp"/>
+            android:textIsSelectable="false" android:layout_alignParentRight="true"
+            android:layout_margin="10dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Detailed description goes here"
             android:id="@+id/goalDescription" android:layout_alignLeft="@+id/goalTitle" android:layout_below="@+id/goalTitle"
             android:textColor="@android:color/secondary_text_light"
-            android:layout_alignRight="@+id/goalTitle"/>
+            android:layout_alignRight="@+id/goalTitle" android:layout_margin="6dp"/>
 </RelativeLayout>
