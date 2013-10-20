@@ -8,18 +8,20 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
-import com.SteelAmbition.Wayfarer.AsyncTasks.PostState;
 import com.SteelAmbition.Wayfarer.Authentication.CreateSubjectActivity;
 import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
 import com.SteelAmbition.Wayfarer.Dangers.DangersFragment;
 import com.SteelAmbition.Wayfarer.Goals.GoalsFragment;
 import com.SteelAmbition.Wayfarer.Information.InformationFragment;
+import com.SteelAmbition.Wayfarer.Network.AuthenticationException;
+import com.SteelAmbition.Wayfarer.Network.NetworkFailureException;
+import com.SteelAmbition.Wayfarer.Network.ServerAccess;
+import com.SteelAmbition.Wayfarer.Network.User;
 import com.SteelAmbition.Wayfarer.data.StateManager;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.crashlytics.android.Crashlytics;
 import com.github.espiandev.showcaseview.ShowcaseView;
 
 
@@ -39,19 +41,11 @@ public class MainActivity extends SherlockFragmentActivity {
        // Crashlytics.start(this);
 
 
-
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 
-        setUserAndSubjectFromSharedPrefs();
+        new LogIntoUser().execute();
 
-
-
-        ///load the file
-
-
-
-        stateManager = null;
 
         activity = this;
 
@@ -71,6 +65,13 @@ public class MainActivity extends SherlockFragmentActivity {
         }
         else{
             userID = sharedPreferences.getString("id", "");
+            try {
+                ServerAccess.setCurrentUser(new User(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
+            } catch (AuthenticationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NetworkFailureException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
 
             SharedPreferences subjectPreferences = getSharedPreferences("subject", 0);
             if(subjectPreferences.getString("id", "")==""){
@@ -118,18 +119,27 @@ public class MainActivity extends SherlockFragmentActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
+
+
+
+
+
     @Override
     public void onStop(){
         super.onStop();
         //TODO commit changes
 
-        new PostState().execute();
+        //new PostState().execute();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        setUserAndSubjectFromSharedPrefs();
+        new LogIntoUser().execute();
         //setUp();
 
     }
@@ -167,13 +177,17 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     private void setUp(){
-//        Database db = Main.newUserDatabase("asd");
-//        Survey s = new Survey(new ArrayList<Question>());
-//        stateManager = new StateManager(db, s);
-//        userID = db.getId();
-//        Main.postState(stateManager, userID);
-        //setUserAndSubjectFromSharedPrefs();
+
         new SubjectLoader().execute(subjectID);
+    }
+
+    class LogIntoUser extends AsyncTask<Void, Void, Void>  {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            setUserAndSubjectFromSharedPrefs();
+            return null;
+        }
     }
 
     class SubjectLoader extends AsyncTask<String, Void, String> {
@@ -185,7 +199,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            MainActivity.stateManager = StateManager.readState(params[0]);
+            stateManager = StateManager.readState(params[0]);
 
             return Utils.getJSONString("http://wayfarer-server.herokuapp.com/steps");
         }

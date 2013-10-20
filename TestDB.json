@@ -9,7 +9,7 @@
         "answers": [
           "Turning down social invitations",
           "Socialising only when asked to",
-          "Talking to people freely",
+          "Talking to people freebly",
           "Making arrangements to spend time with people"
         ],
         "selectedAnswer": -1,
@@ -319,7 +319,7 @@
   "informCards": [
     {
       "shortDescription": "Talking about it",
-      "longDescription": "You don\u0027t give a suicidal person morbid ideas by talking about suicide. The opposite is true — bringing up the subject of suicide and discussing it openly is one of the most helpful things you can do.",
+      "longDescription": "You don\u0027t give a suicidal person morbid ideas by talking about suicide. The opposite is true ï¿½ bringing up the subject of suicide and discussing it openly is one of the most helpful things you can do.",
       "weight": 0.0,
       "dismissals": []
     },
@@ -331,7 +331,7 @@
     },
     {
       "shortDescription": "Mention of suicide",
-      "longDescription": "Almost everyone who commits or attempts suicide has given some clue or warning. Do not ignore suicide threats. Statements like \"you\u0027ll be sorry when I\u0027m dead\", \"I can\u0027t see any way out\" — no matter how casually or jokingly said may indicate serious suicidal feelings.",
+      "longDescription": "Almost everyone who commits or attempts suicide has given some clue or warning. Do not ignore suicide threats. Statements like \"you\u0027ll be sorry when I\u0027m dead\", \"I can\u0027t see any way out\" ï¿½ no matter how casually or jokingly said may indicate serious suicidal feelings.",
       "weight": 0.0,
       "dismissals": []
     },
@@ -343,7 +343,7 @@
     },
     {
       "shortDescription": "Preoccupation with death",
-      "longDescription": "Suicidal individuals will often become preoccupied with death. This obsession can lead to a downward spiral. Don’t tell them not to think about it, but try getting them interested in other topics. Ask them about what they find interesting and try move the subject to this topic.",
+      "longDescription": "Suicidal individuals will often become preoccupied with death. This obsession can lead to a downward spiral. Donï¿½t tell them not to think about it, but try getting them interested in other topics. Ask them about what they find interesting and try move the subject to this topic.",
       "weight": 0.0,
       "dismissals": []
     },
@@ -355,31 +355,31 @@
     },
     {
       "shortDescription": "Self-loathing, self-hatred",
-      "longDescription": "Feelings of worthlessness, guilt, shame, and self-hatred are dangerous both to the at risk individual, and the people around them. They may lash out at people around them if they feel they are unworthy of being helped. Your first reaction should be to console them, but if they are being difficult, it may be better to give them space to calm down. Make sure they don’t have any weapons in them before you leave.",
+      "longDescription": "Feelings of worthlessness, guilt, shame, and self-hatred are dangerous both to the at risk individual, and the people around them. They may lash out at people around them if they feel they are unworthy of being helped. Your first reaction should be to console them, but if they are being difficult, it may be better to give them space to calm down. Make sure they donï¿½t have any weapons in them before you leave.",
       "weight": 0.0,
       "dismissals": []
     },
     {
       "shortDescription": "Getting affairs in order",
-      "longDescription": "Making out a will. Giving away prized possessions. Making arrangements for family members. These can all be signs that a person is considering suicide. If you notice these signs, read ‘Starting a conversation’.",
+      "longDescription": "Making out a will. Giving away prized possessions. Making arrangements for family members. These can all be signs that a person is considering suicide. If you notice these signs, read ï¿½Starting a conversationï¿½.",
       "weight": 0.0,
       "dismissals": []
     },
     {
       "shortDescription": "Saying goodbye",
-      "longDescription": "Unusual or unexpected visits or calls to family and friends. Saying goodbye to people as if they won\u0027t be seen again. These can all be signs that a person is considering suicide. If you notice these signs, read ‘Starting a conversation’.",
+      "longDescription": "Unusual or unexpected visits or calls to family and friends. Saying goodbye to people as if they won\u0027t be seen again. These can all be signs that a person is considering suicide. If you notice these signs, read ï¿½Starting a conversationï¿½.",
       "weight": 0.0,
       "dismissals": []
     },
     {
       "shortDescription": "Withdrawing from others",
-      "longDescription": "Withdrawing from friends and family. Increasing social isolation. Desire to be left alone. Suicidal individuals may attempt to isolate themselves, but this should be considered as a cry for help. It is always a good idea to make regular check-ins on them, but don’t smother them if they need time alone as well.",
+      "longDescription": "Withdrawing from friends and family. Increasing social isolation. Desire to be left alone. Suicidal individuals may attempt to isolate themselves, but this should be considered as a cry for help. It is always a good idea to make regular check-ins on them, but donï¿½t smother them if they need time alone as well.",
       "weight": 0.0,
       "dismissals": []
     },
     {
       "shortDescription": "Self-destructive behaviour",
-      "longDescription": "Increased alcohol or drug use, reckless driving, unsafe sex. Taking unnecessary risks as if they have a \"death wish.\" These can all be signs that a person is considering suicide. If you notice these signs, read ‘Starting a conversation’.",
+      "longDescription": "Increased alcohol or drug use, reckless driving, unsafe sex. Taking unnecessary risks as if they have a \"death wish.\" These can all be signs that a person is considering suicide. If you notice these signs, read ï¿½Starting a conversationï¿½.",
       "weight": 0.0,
       "dismissals": []
     },
@@ -399,7 +399,7 @@
   "preventativeGoals": [
     {
       "name": "Make the initial conversation",
-      "description": "It is important to be honest and clear when you talk to the person. Ask them if they are thinking about suicide and why. It is ok to talk about it. Don’t worry about giving them ideas.",
+      "description": "It is important to be honest and clear when you talk to the person. Ask them if they are thinking about suicide and why. It is ok to talk about it. Donï¿½t worry about giving them ideas.",
       "complete": false,
       "ignoreForUsersList": [],
       "relatedQuestion": {
@@ -683,7 +683,7 @@
     },
     {
       "name": "Have them take up a hobby",
-      "description": "Any personal achievements will work well to increase the persons sense of self-worth. If they don’t have a hobby, try and find something they can do. You can invite them to do something with you if they would enjoy it. If they do have a hobby, but have abandoned it, convince them to get back into it.",
+      "description": "Any personal achievements will work well to increase the persons sense of self-worth. If they donï¿½t have a hobby, try and find something they can do. You can invite them to do something with you if they would enjoy it. If they do have a hobby, but have abandoned it, convince them to get back into it.",
       "complete": false,
       "ignoreForUsersList": [],
       "relatedQuestion": {
@@ -835,7 +835,7 @@
   "regularGoals": [
     {
       "name": "Follow-up on treatment. ",
-      "description": "If the doctor prescribes medication, make sure your friend or loved one takes it as directed. Be aware of possible side effects and be sure to notify the physician if the person seems to be getting worse. It often takes time and persistence to find the medication or therapy that’s right for a particular person.",
+      "description": "If the doctor prescribes medication, make sure your friend or loved one takes it as directed. Be aware of possible side effects and be sure to notify the physician if the person seems to be getting worse. It often takes time and persistence to find the medication or therapy thatï¿½s right for a particular person.",
       "complete": false,
       "ignoreForUsersList": [],
       "relatedQuestion": {
@@ -865,7 +865,7 @@
     },
     {
       "name": "Ask about how they are feeling",
-      "description": "Although it may be a touchy subject, the people often feel like it’s hard to approach anyone about their thoughts and feelings, so it may be easier for you to  make the first step for them. Be a good listener and try to understand their situation and feelings.",
+      "description": "Although it may be a touchy subject, the people often feel like itï¿½s hard to approach anyone about their thoughts and feelings, so it may be easier for you to  make the first step for them. Be a good listener and try to understand their situation and feelings.",
       "complete": false,
       "ignoreForUsersList": [],
       "relatedQuestion": {

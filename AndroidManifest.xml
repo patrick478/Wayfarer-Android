@@ -36,6 +36,10 @@
                   android:label="@string/infoTitle"
                   android:parentActivityName=".MainActivity"/>
 
+        <activity android:name=".Questions.QuestionActivity"
+                  android:label="@string/question"
+                  android:parentActivityName=".MainActivity"/>
+
         <meta-data android:name="com.crashlytics.ApiKey" android:value="03efe68dbbfa65529bfe123bb62c286916870fc4"/>
 
         <uses-library android:name="android.test.runner" />

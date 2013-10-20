@@ -137,4 +137,6 @@ public class Question {
 		for(Goal g:toRemove) s.getRegularGoals().remove(g);
 		return true;
 	}
+
+
 }

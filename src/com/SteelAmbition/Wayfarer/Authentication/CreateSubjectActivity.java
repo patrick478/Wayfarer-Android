@@ -1,6 +1,7 @@
 package com.SteelAmbition.Wayfarer.Authentication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,9 +19,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.espiandev.showcaseview.ShowcaseView;
 import org.apache.http.HttpResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,7 +70,7 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         HttpResponse response;
 		private Activity activity;
 
-        public CreateSubject(String name,Activity activity){
+        public CreateSubject(String name, Activity activity){
         	this.activity = activity;
         	this.name = name;
         }
@@ -89,26 +87,16 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
         protected Database doInBackground(String... params) {
             Database db = StateManager.newUserDatabase(name);
 
-            Survey s = db.getInitialSurvey(); //todo FIX
+            Survey s = db.getInitialSurvey();
+            QuestionActivity.setQuestions(s.getQuestions());
 
-            //           Survey
-            List<Question> qlist = new ArrayList<Question>();
-            String ques = "This is a question <test>";
-            List<String> alist = new ArrayList<String>();
-            alist.add("Answer 1");
-            alist.add("Answer 2");
-            alist.add("Answer 3");
-            alist.add("Answer 4");
-            Question question = new Question(ques, alist);
-
-            qlist.add(question);
-            s = new Survey(qlist);
-
-            for (Question q : s.getQuestions()) {
-                QuestionActivity.setQuestion(q);
+            for (int i = 0; i < s.getQuestions().size(); i++) {
+                Intent intent = new Intent(activity, QuestionActivity.class);
+                intent.putExtra("questionNum", i);
+                startActivity(intent);
             }
 
-            MainActivity.stateManager = new StateManager(db, s);
+            MainActivity.stateManager = new StateManager(db, s, MainActivity.userID);
 
             StateManager.postState(MainActivity.stateManager, db.getId());
 

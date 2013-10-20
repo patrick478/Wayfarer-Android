@@ -40,7 +40,7 @@ public class Database {
 		questions.get(2).addCardWeight("No", "Consider genetics", -1);
 		questions.add(new Question("How close are you to this person?",
 				Arrays.asList(new String[]{"Not close", "Friend", "Close Friend", "Family"})));
-		questions.add(new Question("Have you already talked to them about this?",
+		questions.add(new Question("Have you already talked to them about suicide?",
 				Arrays.asList(new String[]{"Yes, they are stable for now", "Yes, but I'm not sure they are stable", "No"})));
 		initialSurvey = new Survey(questions);
 		return initialSurvey;
