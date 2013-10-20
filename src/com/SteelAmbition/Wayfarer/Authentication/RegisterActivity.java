@@ -29,6 +29,8 @@ public class RegisterActivity extends SherlockFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(ServerAccess.getCurrentUser()!= null) this.finish();
+
         setContentView(R.layout.register);
 
         Button loginButton = (Button) findViewById(R.id.btnRegister);

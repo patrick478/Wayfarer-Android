@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
-import com.SteelAmbition.Wayfarer.AsyncTasks.PostState;
 import com.SteelAmbition.Wayfarer.Authentication.CreateSubjectActivity;
 import com.SteelAmbition.Wayfarer.Authentication.RegisterActivity;
 import com.SteelAmbition.Wayfarer.Dangers.DangersFragment;
@@ -47,13 +46,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
         new LogIntoUser().execute();
 
-
-
-        ///load the file
-
-
-
-        stateManager = null;
 
         activity = this;
 
@@ -141,13 +133,12 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onStop();
         //TODO commit changes
 
-        new PostState().execute();
+        //new PostState().execute();
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        if(ServerAccess.getCurrentUser()!= null) this.finish();
         new LogIntoUser().execute();
         //setUp();
 
@@ -186,13 +177,8 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     private void setUp(){
-//        Database db = Main.newUserDatabase("asd");
-//        Survey s = new Survey(new ArrayList<Question>());
-//        stateManager = new StateManager(db, s);
-//        userID = db.getId();
-//        Main.postState(stateManager, userID);
-        //setUserAndSubjectFromSharedPrefs();
-        new SubjectLoader().execute(subjectID, userID);
+
+        new SubjectLoader().execute(subjectID);
     }
 
     class LogIntoUser extends AsyncTask<Void, Void, Void>  {
@@ -213,7 +199,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            MainActivity.stateManager = StateManager.readState(params[0], params[1]);
+            stateManager = StateManager.readState(params[0]);
 
             return Utils.getJSONString("http://wayfarer-server.herokuapp.com/steps");
         }

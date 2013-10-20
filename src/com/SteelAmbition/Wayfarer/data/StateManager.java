@@ -1,19 +1,15 @@
 package com.SteelAmbition.Wayfarer.data;
 
-import com.SteelAmbition.Wayfarer.MainActivity;
 import com.SteelAmbition.Wayfarer.Network.*;
 import com.SteelAmbition.Wayfarer.loader.DummyLoader;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.util.*;
 
 
@@ -277,25 +273,17 @@ public class StateManager implements StateAccess{
 
 		try {
 
-            JSONObject json = new JSONObject();
-            json.put("name", name);
+            Subject s = new Subject(ServerAccess.getCurrentUser(), name);
 
-//            HttpResponse response = ServerAccess.doRequest("PUT", "/subjects", 201, json, ServerAccess.getCurrentUser().getAuthHeader());
+            ServerAccess.getCurrentUser().setSubjectId(s.getId());
 
-            Subject s = new Subject(ServerAccess.getCurrentUser(), name); //todo
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonReader jr = new JsonReader(new StringReader(s.getDatapool().toString()));
-
-
-//            JSONObject reply = new JSONObject(EntityUtils.toString(response.getEntity()));
-//            String id = reply.getString("id");
-//            JSONObject datapool = reply.getJSONObject("datapool");
-//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//            JsonReader jr = new JsonReader(new StringReader(datapool.toString()));
-
-
+            jr.setLenient(true);
             db = gson.fromJson(jr,Database.class);
-            db.setID(null);
+
+
+            db.setID(ServerAccess.getCurrentUser().getId());
 
 //		} catch (MalformedURLException e) {
 //			System.out.println("PostTask "+e.getMessage());
@@ -307,10 +295,6 @@ public class StateManager implements StateAccess{
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //        } catch (AlreadyExistsException e) {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (DoesNotExistException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return db;
 	}
@@ -318,7 +302,7 @@ public class StateManager implements StateAccess{
 	public static void postState(StateManager state,String id){
 		try { 
 			// Set up & establish connection 
-			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
+			/*URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
 			conn.setReadTimeout(100000); 
 			conn.setConnectTimeout(150000); 
@@ -332,27 +316,30 @@ public class StateManager implements StateAccess{
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, 
 					"UTF-8")); 
 			//System.out.println(a.getHtml());
+			*/
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String out = gson.toJson(state);
-			bw.write("{\"state\": "+out+"}");
-			bw.close(); 
-			os.close(); 
-			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()); 
-			System.out.println("{\"state\": "+out+"}");
+            Subject s =  ServerAccess.getCurrentUser().getSubject();
+            s.setState(gson.toJson(state));
+            s.update();
+
 
 			// Get response 
-		} catch (MalformedURLException e) { 
-			System.out.println("PostTask "+e.getMessage()); 
-		} catch (IOException e) { 
-			System.out.println("PostTask "+e.getMessage()); 
-		} 
-	}
+		} catch (NetworkFailureException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (AuthenticationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (JSONException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (OldDataException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
-	public static StateManager readState(String id, String currentUser){
+	public static StateManager readState(String id){
 		StateManager state = null;
 		try { 
 			// Set up & establish connection 
-			URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
+			/*URL url = new URL("http://wayfarer-server.herokuapp.com/subjects/"+id);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection(); 
 			conn.setReadTimeout(100000); 
 			conn.setConnectTimeout(150000); 
@@ -371,13 +358,22 @@ public class StateManager implements StateAccess{
 			System.out.println(conn.getResponseCode()+": "+conn.getResponseMessage()+"\n"+reply); 
 			JsonReader jr = new JsonReader(new StringReader(reply));
 			jr.setLenient(true);
-			state = gson.fromJson(jr,StateManager.class);
-		} catch (MalformedURLException e) { 
-			System.out.println("PostTask "+e.getMessage()); 
-		} catch (IOException e) { 
-			System.out.println("PostTask "+e.getMessage()); 
-		} 
-		return state;
+			state = gson.fromJson(jr,StateManager.class); */
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Subject subject = new Subject(ServerAccess.getCurrentUser());
+            JSONObject jobject = subject.getState();
+            JsonReader jr = new JsonReader(new StringReader(jobject.toString()));
+            jr.setLenient(true);
+            state = gson.fromJson(jr,StateManager.class);
+
+        } catch (NetworkFailureException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (AuthenticationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return state;
 	}
 
 	public void setInformCards(List<InformCard> cards){
