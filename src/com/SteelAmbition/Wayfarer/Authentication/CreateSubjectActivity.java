@@ -1,6 +1,7 @@
 package com.SteelAmbition.Wayfarer.Authentication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,9 +88,12 @@ public class CreateSubjectActivity extends SherlockFragmentActivity {
             Database db = StateManager.newUserDatabase(name);
 
             Survey s = db.getInitialSurvey();
+            QuestionActivity.setQuestions(s.getQuestions());
 
-            for (Question q : s.getQuestions()) {
-                QuestionActivity.setQuestion(q);
+            for (int i = 0; i < s.getQuestions().size(); i++) {
+                Intent intent = new Intent(activity, QuestionActivity.class);
+                intent.putExtra("questionNum", i);
+                startActivity(intent);
             }
 
             MainActivity.stateManager = new StateManager(db, s, MainActivity.userID);
